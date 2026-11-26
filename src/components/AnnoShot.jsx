@@ -54,12 +54,17 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
     const tops = [];
     const bent = [];
     let prev = -Infinity;
-    order.forEach((i) => {
+    const TAGC = 16; // 카드 윗면에서 태그 가운데까지의 높이. 선이 태그 가운데에 닿도록 맞춘다.
+    order.forEach((i, oi) => {
       const lo = Math.max(by, prev + GAP, dots[i].y + M - hs[i]);
       const hi = dots[i].y - M;
-      if (lo > hi + 0.5) bent.push(i);
-      tops[i] = lo;
-      prev = lo + hs[i];
+      const nx = order[oi + 1];
+      const cap = nx !== undefined ? dots[nx].y - M - GAP - hs[i] : Infinity;
+      let t = Math.min(dots[i].y - TAGC, hi, cap);
+      t = Math.max(t, lo);
+      if (t > hi + 0.5) bent.push(i);
+      tops[i] = t;
+      prev = t + hs[i];
     });
     const stageBottom = by + sr.height;
     const bottom = Math.max(stageBottom, ...tops.map((t, i) => t + hs[i]));
@@ -96,7 +101,7 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
       <div className="an-stage-col">
         <div ref={stageRef} className="an-stage" style={{ aspectRatio: `${crop.w} / ${crop.h}` }}>
           <div className="an-clip">
-            <img src={`${import.meta.env.BASE_URL}img/${src}`} alt={alt} style={imgStyle} loading="lazy" decoding="async" />
+            <img src={`${import.meta.env.BASE_URL}img/${src}`} alt={alt} style={imgStyle} decoding="async" />
           </div>
           {notes.map((n, i) => (
             <span

@@ -10,13 +10,13 @@ const OFFICER = [
 export default function Journey() {
   return (
     <div className="lane officer">
-      <h3 className="t-sub">비전공 공무원</h3>
+      <h3>비전공 공무원</h3>
       <div className="track">
         <span className="rail" aria-hidden="true"><i /></span>
         {OFFICER.map((s) => (
           <div className="stage-step" key={s.b}>
             <b>{s.b}</b>
-            <span className="t-body">{s.s}</span>
+            <span>{s.s}</span>
           </div>
         ))}
       </div>

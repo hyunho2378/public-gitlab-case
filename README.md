@@ -1,3 +1,8 @@
+# 현재 구성 (2026. 11. 26. 비핸스 세로 흐름 기준)
+
+한 줄 세로 흐름: 표지, Overview, 문제 전환 띠(BUT), Design Process, Research(차트와 기존 화면), Project Goal, Users and Journey, UX Strategy, IA, Visual System, GUI Design(기능별 구간 아홉 개), My Role, 마무리.
+시빅해킹과 AX와 UX는 구간 위 작은 라벨로 표시한다. 장 탭과 스크롤 연출과 자동 재생은 쓰지 않는다. 아래 표는 이전 구성 기록이다.
+
 # 공공 깃랩 AX 개선 케이스 스터디
 
 제19회 디지털인문예술전공 프로젝트 전시회(2026. 12. 1.~12. 3.) 포스터 QR로 여는 작품 사이트입니다.

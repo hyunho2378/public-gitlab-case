@@ -13,7 +13,7 @@ export const SHOTS = {
 // 1 업무 문장 검색 (G-02 업무 검색)
 export const F_SEARCH = {
   ...SHOTS.g02,
-  crop: { x: 300, y: 240, w: 1200, h: 716 },
+  crop: { x: 300, y: 240, w: 1200, h: 560 },
   side: 'right',
   alt: '업무 문장으로 찾은 AI 추천 결과 화면',
   cap: '피그마 G-02 업무 검색 1440px',
@@ -28,7 +28,7 @@ export const F_SEARCH = {
 // 2 AI 소개 카드 (A-02 소개)
 export const F_CARD = {
   ...SHOTS.a02,
-  crop: { x: 300, y: 128, w: 860, h: 690 },
+  crop: { x: 300, y: 128, w: 860, h: 640 },
   side: 'left',
   alt: '다섯 항목과 근거 표식이 붙은 소개 카드',
   cap: '피그마 A-02 프로젝트 소개 1440px',
@@ -52,7 +52,7 @@ export const F_CARD_README = {
 // 3 업무 분야 분류 (A-01 둘러보기)
 export const F_FIELD = {
   ...SHOTS.a01,
-  crop: { x: 300, y: 240, w: 1200, h: 640 },
+  crop: { x: 300, y: 240, w: 1200, h: 500 },
   side: 'right',
   alt: '분야 표시와 근거 표식이 붙은 프로젝트 둘러보기 목록',
   cap: '피그마 A-01 프로젝트 둘러보기 1440px',
@@ -67,7 +67,7 @@ export const F_FIELD = {
 // 4 유사 프로젝트 (A-02 유사 프로젝트 5)
 export const F_SIMILAR = {
   ...SHOTS.a02,
-  crop: { x: 300, y: 770, w: 860, h: 640 },
+  crop: { x: 300, y: 770, w: 860, h: 500 },
   side: 'right',
   alt: '유사 프로젝트 다섯 건과 차이 한 줄이 붙은 목록',
   cap: '피그마 A-02 유사 프로젝트 5와 현재 프로젝트 제외 안내',
@@ -81,7 +81,7 @@ export const F_SIMILAR = {
 // 5 현황판 (D-01)
 export const F_BOARD = {
   ...SHOTS.d01,
-  crop: { x: 80, y: 70, w: 1400, h: 840 },
+  crop: { x: 80, y: 70, w: 1400, h: 600 },
   side: 'left',
   alt: '분야별 지표가 묶인 현황판',
   cap: '피그마 D-01 현황판 1440px',
@@ -127,7 +127,7 @@ export const F_PUBLISH = {
 // 8 업무 도우미 패널 (A-12, 어두운 화면)
 export const F_PANEL = {
   ...SHOTS.panel,
-  crop: { x: 248, y: 80, w: 1190, h: 900 },
+  crop: { x: 248, y: 80, w: 1190, h: 720 },
   side: 'right',
   dark: true,
   alt: '업무 도우미 패널이 열린 화면',
@@ -143,7 +143,7 @@ export const F_PANEL = {
 // 9 AI 코딩 도구 연결 안내 (A-07, 어두운 화면)
 export const F_MCP = {
   ...SHOTS.mcp,
-  crop: { x: 248, y: 90, w: 1190, h: 830 },
+  crop: { x: 248, y: 90, w: 1190, h: 800 },
   side: 'left',
   dark: true,
   alt: 'AI 코딩 도구 연결 안내 화면',
@@ -180,7 +180,7 @@ export const ASIS_TABLE = {
 };
 export const GITHUB = {
   src: 'c_gh.webp', px: [2000, 952], k: 1,
-  crop: { x: 0, y: 0, w: 2000, h: 952 },
+  crop: { x: 0, y: 0, w: 2000, h: 700 },
   side: 'right',
   alt: 'GitHub 저장소 검색 결과',
   cap: 'GitHub 저장소 검색 2026. 11. 22. 검색어 출장비',

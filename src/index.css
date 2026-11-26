@@ -710,3 +710,75 @@ html { scroll-padding-top: 72px; }
 .d3 { background: var(--bg-gray); }
 .d3 .phones .shot:first-child, .d3 .phones .shot:last-child { transform: none; margin-top: 0; }
 .live .frame { height: auto; aspect-ratio: 16 / 10; max-width: 1350px; } @media (max-width: 767px) { .live .frame { aspect-ratio: auto; height: 70svh; } } .live-open img { object-position: 0 0; }
+
+
+/* ===== 2026. 11. 26. 첫 화면과 색, 길이 정리 =====
+   색은 KRDS 파랑(#256EF4)과 행정안전부 남색 두 가지에 흰 바탕만 쓴다. 회색 면은 쓰지 않는다. */
+:root {
+  --navy: #0f2a5c;
+  --blue-dark: #0f2a5c;
+  --bg-gray: #f3f7ff;
+  --bg-soft: #e8effd;
+  --dark: #0f2a5c;
+  --dark-face: #183a78;
+  --dark-ink: #ffffff;
+  --dark-sub: #d4e2fc;
+  --dark-mute: #9fbbf0;
+}
+.top { background: rgba(255, 255, 255, 0.96); }
+
+/* 첫 화면: 남색 면 안에 제목과 정보와 실제 화면 */
+.cover { background: var(--bg); height: auto; min-height: 0; padding: 88px 0 clamp(36px, 3.4vw, 56px); overflow: visible; }
+.cover-panel { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4vw, 64px); background: var(--navy); border-radius: 16px; padding: clamp(36px, 4vw, 60px) 0 0 clamp(32px, 4.4vw, 68px); overflow: hidden; align-items: end; }
+.cover-text { color: #fff; padding-bottom: clamp(36px, 4vw, 60px); display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; justify-content: center; }
+.cover .t-cover { font-size: clamp(30px, 3.1vw, 46px); line-height: 1.22; letter-spacing: -0.03em; font-weight: 700; color: #fff; }
+.cover .cover-sub { margin-top: 14px; font-size: clamp(17px, 1.3vw, 21px); line-height: 1.5; color: var(--dark-sub); font-weight: 400; max-width: 460px; }
+.cover-meta { margin-top: 28px; display: grid; gap: 2px; }
+.cover-meta > div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 16px; padding: 5px 0; box-shadow: none; }
+.cover-meta dt { color: #8fb2f7; font-size: 17px; font-weight: 600; line-height: 1.5; }
+.cover-meta dd { color: #fff; font-size: 17px; line-height: 1.5; }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 26px; border-radius: 8px; background: var(--blue); color: #fff; font-weight: 700; font-size: 17px; line-height: 1; text-decoration: none; transition: background-color 0.2s var(--power2out); }
+.btn:hover { background: #1a5ad6; color: #fff; }
+.cover .btn { margin-top: 30px; }
+.cover-shot { position: relative; width: 100%; aspect-ratio: 1500 / 900; overflow: hidden; border-radius: 12px 0 0 0; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,0.0); }
+.cover-shot img { position: absolute; left: 0; top: 0; width: 103.13%; max-width: none; height: auto; }
+@media (max-width: 900px) {
+  .cover-panel { grid-template-columns: 1fr; padding: 32px 0 0 24px; gap: 28px; }
+  .cover-text { padding-bottom: 0; }
+  .cover-shot { aspect-ratio: 1500 / 1000; border-radius: 10px 0 0 0; }
+}
+
+/* 구간 바탕과 간격 */
+.feat, .research, .journey, .elements, .role-sec, .live { padding-top: clamp(36px, 3.2vw, 56px); padding-bottom: clamp(36px, 3.2vw, 56px); }
+.feat.tint, .journey, .live { background: var(--bg-gray); }
+.feat.gray { background: var(--bg); }
+.research, .role-sec { background: var(--bg); }
+.feat .d-head, .research .d-head, .journey .d-head, .elements .d-head, .role-sec .d-head { margin-bottom: clamp(20px, 2vw, 32px); }
+.d-head p { margin-top: 12px; }
+.feat .an-next { margin-top: clamp(24px, 2.4vw, 40px); }
+.asis-stack { display: grid; gap: clamp(28px, 2.8vw, 44px); margin-top: 0; }
+.dark-feat { margin-top: clamp(28px, 2.8vw, 48px); }
+.lane { margin-top: clamp(20px, 2vw, 32px); }
+.lane h3 { margin-bottom: 18px; }
+.lane + .lane, .journey .lane + .lane { margin-top: clamp(28px, 2.6vw, 44px); }
+.role-sec .next { margin-top: clamp(28px, 2.8vw, 44px); }
+.live .frame { margin-top: 20px; }
+.end { background: var(--navy); color: #fff; padding-top: clamp(40px, 3.6vw, 64px); padding-bottom: clamp(28px, 2.6vw, 44px); }
+.end .closing, .end .credit dt, .end h2 { color: #fff; }
+.end .credit dd { color: var(--dark-sub); }
+.end .copy { color: var(--dark-mute); margin-top: 28px; }
+.end-grid { margin-top: 28px; }
+.an-text { color: var(--ink); }
+.elements.dark .t-sub { color: #fff; }
+.an-tag { color: #0b1b3d; }
+.cover-panel { grid-template-columns: minmax(0, 4.4fr) minmax(0, 7.6fr); }
+.cover-shot { aspect-ratio: 1240 / 760; }
+.cover-shot img { width: 124.76%; left: -20.16%; top: 0; }
+@media (max-width: 900px) { .cover-shot { aspect-ratio: 1240 / 900; } }
+@media (max-width: 900px) {
+  .cover-panel { grid-template-columns: minmax(0, 1fr); padding: 32px 0 0 24px; gap: 28px; }
+  .cover-text { padding-right: 24px; padding-bottom: 0; }
+  .cover-meta > div { grid-template-columns: 76px minmax(0, 1fr); gap: 12px; }
+  .cover-shot { aspect-ratio: 1240 / 900; }
+}
+@media (max-width: 767px) { .live .frame { aspect-ratio: auto; height: min(70svh, 640px); } }

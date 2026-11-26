@@ -9,7 +9,7 @@ export const CAT = {
   Responsive: '#0D99FF',
   'Default value': '#0D99FF',
   'Data state': '#0D99FF',
-  'As-Is': '#6D7882',
+  'As-Is': '#0F2A5C',
 };
 
 const GAP = 14;
@@ -131,7 +131,7 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
               className="an-card"
               style={{ ...(pos || {}), '--c': CAT[n.cat], '--d': `${0.3 + i * 0.12}s` }}
             >
-              <span className="an-tag">{n.cat}</span>
+              <span className="an-tag" style={n.cat === 'As-Is' ? { color: '#fff' } : undefined}>{n.cat}</span>
               <p className="an-text">{n.text}</p>
             </div>
           );

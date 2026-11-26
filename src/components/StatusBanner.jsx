@@ -39,7 +39,7 @@ export default function StatusBanner() {
         {ROWS.map((r) => (
           <div className="res in" key={r}><b>{r}</b><span /></div>
         ))}
-        <p className="hint">{step === 0 ? '실시간 자료를 부르는 중입니다.' : '점검 중에도 저장 자료로 목록을 봅니다.'}</p>
+        <p className="hint">{step === 0 ? '실시간 자료 요청 중' : '점검 중에도 저장 자료로 목록 표시'}</p>
       </div>
     </div>
   );

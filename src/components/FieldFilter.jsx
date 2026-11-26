@@ -70,7 +70,7 @@ export default function FieldFilter() {
               <p>{r.d}</p>
             </div>
           ))}
-          <p className="hint">{on ? '여비 담당자는 도구 이름을 몰라도 분야에서 찾습니다.' : '분야를 고르면 그 분야 도구만 남습니다.'}</p>
+          <p className="hint">{on ? '도구 이름을 몰라도 분야에서 출장 도구를 찾는 장면' : '분야를 고르면 그 분야 도구만 남음'}</p>
         </div>
       </div>
     </div>

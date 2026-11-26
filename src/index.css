@@ -156,6 +156,8 @@ p { text-wrap: pretty; }
 
 /* 3 좌우 분할 (Sphere cont2: 50%, 50%) */
 .split { display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-gray); }
+.split .split-head { grid-column: 1 / -1; padding-top: clamp(60px, 5.8vw, 108px); padding-bottom: clamp(26px, 2.6vw, 44px); }
+.split .split-head p { margin-top: 22px; max-width: 880px; }
 .split figure { position: relative; overflow: hidden; aspect-ratio: 960 / 920; }
 .split figure .in-img { position: absolute; inset: 0; }
 .split figure img { width: 100%; height: 100%; object-fit: cover; object-position: 0 0; }
@@ -172,7 +174,7 @@ p { text-wrap: pretty; }
 .marquee .item { flex: none; opacity: 0.72; } /* Sphere cont3 swiper-slide opacity 0.54, 흰 바탕 캡처라 조금 올림 */
 .marquee .item img { border-radius: 10px; box-shadow: var(--e1); }
 @keyframes slide { to { transform: translateX(-50%); } }
-.problem .frame { position: absolute; left: 50%; top: 50%; width: min(74vw, 1180px); transform: translate(-50%, -50%); z-index: 3; }
+.problem .frame { position: relative; width: min(84vw, 1180px); margin: 0 auto; z-index: 3; }
 .problem .frame .cap { color: var(--sub); }
 .problem .frame .shot { box-shadow: var(--e3); }
 
@@ -424,10 +426,6 @@ button.stage-step:hover b { color: var(--blue); }
 .journey .ia figcaption { margin-top: 14px; }
 .journey-view .shot { min-height: clamp(320px, 34vw, 640px); }
 .journey-view .shot img { width: 100%; }
-.concept-strip { margin-top: clamp(40px, 3.6vw, 68px); }
-.concept-strip .item { width: clamp(300px, 40vw, 760px); }
-.concept-strip .shot { aspect-ratio: 16 / 10; }
-.concept-strip .shot img { height: 100%; object-fit: cover; object-position: 0 0; }
 .end-shot { height: clamp(300px, 30vw, 560px); overflow: hidden; }
 .end-shot img { width: 100%; height: 100%; object-fit: cover; object-position: 0 0; }
 .viewport { height: clamp(460px, 50vw, 880px); }
@@ -556,3 +554,89 @@ button:active { transform: translateY(1px); }
 .fields-sec { background: var(--bg); }
 .status-sec { background: var(--bg-gray); }
 .end { padding-bottom: 0; }
+
+/* ===== 화면 주석 재제작 (2026. 11. 26.) ===== */
+:root { --pink: #e8459a; --azure: #0d99ff; }
+
+/* 표지: 실제 화면 한 장을 크게 */
+.cover { height: auto; min-height: 0; padding-bottom: 0; }
+.cover-title { padding-top: clamp(96px, 11vh, 140px); }
+.cover-sub { margin-top: 18px; color: var(--sub); font-weight: 500; max-width: 760px; }
+.cover-stage { position: relative; inset: auto; z-index: 2; pointer-events: auto; width: min(100% - 2 * var(--gx), 1560px); margin: clamp(28px, 3.4vw, 60px) auto 0; }
+.cover-stage .shot { border-radius: var(--r) var(--r) 0 0; box-shadow: var(--e3); aspect-ratio: 1500 / 870; will-change: transform; }
+.cover-stage .shot img { position: absolute; left: 0; top: 0; width: 103.13%; max-width: none; height: auto; }
+
+/* 기능 구간 */
+.feat { padding-block: clamp(48px, 4vw, 76px); background: var(--bg); }
+.feat.gray { background: var(--bg-gray); }
+.feat .d-head { max-width: 860px; margin-bottom: clamp(28px, 2.6vw, 48px); }
+.feat .an-next { margin-top: clamp(36px, 3.4vw, 64px); }
+.feat .stage { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(28px, 3.2vw, 60px); margin-top: clamp(36px, 3.4vw, 64px); align-items: start; }
+.feat .stage .right { margin-top: clamp(0px, 8vw, 160px); }
+.feat .demo-wide { margin-top: clamp(40px, 3.6vw, 68px); }
+
+/* 주석 화면: 점과 실선과 카드 */
+.an { position: relative; display: grid; align-items: start; column-gap: clamp(32px, 3.4vw, 56px); margin: 0; --cw: 330px; }
+.an-right { grid-template-columns: minmax(0, 1fr) var(--cw); }
+.an-left { grid-template-columns: var(--cw) minmax(0, 1fr); }
+.an-fit.an-right { grid-template-columns: minmax(0, var(--sm)) var(--cw); justify-content: start; }
+.an-fit.an-left { grid-template-columns: var(--cw) minmax(0, var(--sm)); justify-content: start; }
+.an-left .an-stage-col { order: 2; }
+.an-left .an-cards { order: 1; }
+.an-stage-col { min-width: 0; max-width: var(--sm, none); }
+.an-stage { position: relative; border-radius: var(--r); background: #fff; box-shadow: var(--e2); width: 100%; }
+.an-clip { position: absolute; inset: 0; overflow: hidden; border-radius: var(--r); background: #fff; }
+.an-clip img { position: absolute; max-width: none; height: auto; display: block; }
+.an-tint { position: absolute; border-radius: 4px; background: color-mix(in srgb, var(--c) 13%, transparent); opacity: 0; transition: opacity 0.6s var(--power1inOut) var(--d, 0s); pointer-events: none; }
+.an.in .an-tint { opacity: 1; }
+.an-stage-col .cap { margin-top: 14px; }
+.an-cards { position: relative; min-width: 0; }
+.an-card { position: absolute; left: 0; right: 0; background: #fff; border-radius: 10px; box-shadow: var(--e1); padding: 14px 16px 16px; opacity: 0; transform: translateY(10px); transition: opacity 0.6s var(--power1inOut) var(--d, 0s), transform 0.7s var(--power3out) var(--d, 0s); }
+.an.in .an-card { opacity: 1; transform: none; }
+.an-tag { display: inline-block; padding: 5px 8px; border-radius: 4px; background: var(--c); color: #131416; font-size: 14px; line-height: 1; font-weight: 700; letter-spacing: 0; }
+.an-text { margin-top: 10px; font-size: var(--t-body); line-height: 1.5; letter-spacing: -0.01em; color: var(--ink); text-wrap: pretty; }
+.an-lines { position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none; overflow: visible; }
+.an-line path { fill: none; stroke: var(--c); stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.9s var(--power2out) var(--d, 0s); }
+.an.in .an-line path { stroke-dashoffset: 0; }
+.an-line .core { fill: var(--c); transform-box: fill-box; transform-origin: center; transform: scale(0); transition: transform 0.5s var(--power3out) var(--d, 0s); }
+.an-line .halo { fill: var(--c); opacity: 0.22; transform-box: fill-box; transform-origin: center; transform: scale(0); transition: transform 0.6s var(--power3out) var(--d, 0s); }
+.an.in .an-line .core, .an.in .an-line .halo { transform: scale(1); }
+.an-dark .an-stage { box-shadow: var(--e2-dark); background: #131416; }
+.an-dark .an-clip { background: #131416; }
+.an-dark .an-card { background: var(--dark-face); box-shadow: var(--e2-dark); }
+.an-dark .an-text { color: var(--dark-ink); }
+.an-dark .an-tint { background: color-mix(in srgb, var(--c) 18%, transparent); }
+.an-dark .cap { color: var(--dark-mute); }
+
+/* 좁은 화면: 카드를 화면 아래에 번호와 함께 */
+.an-narrow { grid-template-columns: minmax(0, 1fr) !important; row-gap: 20px; }
+.an-narrow .an-stage-col, .an-narrow .an-cards { order: 0 !important; max-width: none; }
+.an-narrow .an-cards { counter-reset: an; display: grid; gap: 12px; height: auto !important; }
+.an-narrow .an-card { position: static; counter-increment: an; opacity: 1; transform: none; }
+.an-narrow .an-tag::before { content: counter(an) '  '; white-space: pre; }
+.an-dot { position: absolute; z-index: 3; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--c); color: #131416; display: grid; place-items: center; font-size: 13px; line-height: 1; font-weight: 700; box-shadow: var(--e1); }
+
+/* 조사 구간: As-Is 주석 */
+.asis-stack { display: grid; gap: clamp(32px, 3.4vw, 64px); margin-top: clamp(28px, 2.6vw, 48px); }
+.research .gh { margin-top: clamp(40px, 3.6vw, 72px); }
+.an .an-stage-col .cap { max-width: 720px; }
+
+/* 어두운 구간 */
+.dark-feat { margin-top: clamp(48px, 4.4vw, 84px); }
+.dark-feat > .t-sub { margin-bottom: 10px; }
+.dark-feat > .t-body { margin-bottom: clamp(24px, 2.4vw, 40px); max-width: 780px; }
+.dark-feat .num { color: #5ab4ff; }
+
+.role-sec .next { margin-top: clamp(40px, 3.6vw, 68px); max-width: 980px; }
+.role-sec .next p { margin-top: 12px; }
+
+@media (max-width: 1279px) { .an { --cw: 280px; column-gap: 28px; } }
+@media (max-width: 1023px) { .feat .stage { grid-template-columns: 1fr; } .feat .stage .right { margin-top: 0; } }
+
+.role-sec .role-lane { margin-top: clamp(28px, 2.6vw, 44px); }
+.role-sec .src { margin-top: 18px; }
+
+@media (max-width: 767px) { .browser form input { flex: none; width: 100%; } }
+
+.feat .demo-narrow { width: min(100%, 1040px); }
+.an-dot { width: 20px; height: 20px; margin: -10px 0 0 -10px; font-size: 12px; }

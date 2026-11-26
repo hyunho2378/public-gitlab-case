@@ -32,7 +32,7 @@ export default function SearchDemo() {
   const [typed, setTyped] = useState(QUERIES[0]);
   const [shown, setShown] = useState(3);
   const [manual, setManual] = useState(false);
-  const [note, setNote] = useState('검색어가 주소의 q 값으로 저장됩니다.');
+  const [note, setNote] = useState('검색어가 주소에 남음');
   const full = QUERIES[qi];
   const res = DATA[full];
 
@@ -44,14 +44,14 @@ export default function SearchDemo() {
     (async () => {
       while (!stop) {
         setShown(0);
-        setNote('업무 문장을 입력합니다.');
+        setNote('업무 문장 입력 중');
         setTyped('');
         for (let i = 1; i <= full.length && !stop; i += 1) { setTyped(full.slice(0, i)); await wait(55); }
         if (stop) return;
-        setNote('검색어가 주소의 q 값으로 저장되었습니다.');
+        setNote('검색어가 주소에 저장됨');
         await wait(420);
         for (let i = 1; i <= DATA[full].rows.length && !stop; i += 1) { setShown(i); await wait(380); }
-        setNote('주소를 그대로 보내면 동료도 같은 결과를 봅니다.');
+        setNote('주소를 보내면 동료도 같은 결과');
         await wait(2600);
         if (stop) return;
         setQi((v) => (v + 1) % QUERIES.length);
@@ -69,7 +69,7 @@ export default function SearchDemo() {
     setQi(QUERIES.indexOf(next));
     setTyped(next);
     setShown(DATA[next].rows.length);
-    setNote('검색어가 주소의 q 값으로 저장되었습니다.');
+    setNote('검색어가 주소에 저장됨');
   };
 
   return (

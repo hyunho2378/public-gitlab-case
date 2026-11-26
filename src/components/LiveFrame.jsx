@@ -13,7 +13,7 @@ export default function LiveFrame() {
       ) : (
         <button type="button" className="live-open" onClick={() => setOn(true)}>
           <Pic name="deploy_light_1440" alt="배포한 프로젝트 둘러보기 화면" />
-          <span className="t-lead">여기를 눌러 직접 써 보세요</span>
+          <span className="t-lead">배포 화면 열기</span>
         </button>
       )}
     </div>

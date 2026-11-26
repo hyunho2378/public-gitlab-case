@@ -38,7 +38,7 @@ export default function SimilarTools() {
       </div>
       <div className="page">
         <h4>유사 프로젝트 {CAND.length}</h4>
-        <p className="summary">보고 있는 {CUR}은 후보에서 빠집니다.</p>
+        <p className="summary">보고 있는 {CUR}은 후보에서 제외</p>
         {CAND.slice(0, n).map((c) => (
           <div className="res in" key={c.t}>
             <b>{c.t}</b>
@@ -47,7 +47,7 @@ export default function SimilarTools() {
             <small>{c.diff}</small>
           </div>
         ))}
-        <p className="hint">새 프로젝트를 만들기 전에 재사용할 도구가 있는지 봅니다.</p>
+        <p className="hint">새 프로젝트를 만들기 전 재사용할 도구 확인</p>
       </div>
     </div>
   );

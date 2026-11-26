@@ -92,7 +92,7 @@ export default function EvidenceCard() {
         </ol>
       </div>
       <p className="hint" aria-live="polite">
-        {active ? `${active.k} 칸의 근거는 ${label(active.lines)}입니다.` : '근거 줄을 누르면 README 원문의 그 줄이 밝아집니다.'}
+        {active ? `${active.k} 칸의 근거, ${label(active.lines)}` : '근거 줄 단추를 누르면 README 원문의 그 줄이 밝아짐'}
       </p>
     </div>
   );

@@ -4,7 +4,9 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { Pic, Shot, Marquee, Annotated } from './components/parts.jsx';
+import { Pic, Shot } from './components/parts.jsx';
+import AnnoShot from './components/AnnoShot.jsx';
+import { F_SEARCH, F_CARD, F_CARD_README, F_FIELD, F_SIMILAR, F_BOARD, F_DRAFT, F_PUBLISH, F_PANEL, F_MCP, ASIS_FILTER, ASIS_TABLE, GITHUB } from './annos.js';
 import Journey from './components/Journey.jsx';
 import EvidenceCard from './components/EvidenceCard.jsx';
 import SearchDemo from './components/SearchDemo.jsx';
@@ -17,19 +19,20 @@ import StatusBanner from './components/StatusBanner.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PROBLEM_TILES = [
-  { name: 'c_asis_side', pad: 73 },
-  { name: 'c_asis_table2', pad: 185 },
-  { name: 'c_asis_filter', pad: 11 },
-  { name: 'c_asis_table', pad: 91 },
-];
-
 const DEV = [
   { b: '발견', s: '연결 안내에서 설정 복사' },
   { b: '검색', s: 'AI 코딩 도구에 개발 요청' },
   { b: '판단', s: '프로젝트 번호로 상세 조회' },
   { b: '결정', s: '재사용인지 신규 개발인지 선택' },
   { b: '기록', s: '공개 전 README 정리' },
+];
+
+const ROLE = [
+  { b: '목록과 카드', s: 'KRDS로 배치 설계' },
+  { b: '반응형', s: '화면 크기별 메뉴와 본문 규칙' },
+  { b: '근거 표시', s: '카드 한 줄마다 출처 표식' },
+  { b: '현황판', s: '분야별 지표 화면' },
+  { b: '코드 검토', s: '공통 문구와 부품 정리' },
 ];
 
 function useMotion() {
@@ -65,12 +68,10 @@ function useMotion() {
           scrollTrigger: { trigger: frame, start: '5% 90%', end: 'bottom 20%', scrub: 1.2, invalidateOnRefresh: true },
         });
       });
-      // 표지: 세 화면이 0.15s 간격으로 아래에서 올라오고(fadeInUp 1.2s power3.out), 스크롤에 따라 층마다 다른 속도로 떠오른다(km scrub 1.2)
+      // 표지: 큰 화면이 아래에서 올라오고(fadeInUp 1.2s power3.out), 스크롤에 따라 천천히 떠오른다(km scrub 1.2)
       if (!reduced) {
-        gsap.from('.cover-stage .layer', { y: 160, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.15, delay: 0.25 });
-        [['.layer.back', -60], ['.layer.main', -140], ['.layer.front', -240]].forEach(([sel, y]) => {
-          gsap.to(`${sel} .shot`, { y, ease: 'none', scrollTrigger: { trigger: '#cover', start: 'top top', end: 'bottom top', scrub: 1.2 } });
-        });
+        gsap.from('.cover-stage .shot', { y: 160, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.25 });
+        gsap.to('.cover-stage .shot', { y: -90, ease: 'none', scrollTrigger: { trigger: '#cover', start: 'top top', end: 'bottom top', scrub: 1.2 } });
       }
       // 머리글: 표지를 지나면 나타나고 진행 막대를 채운다
       ScrollTrigger.create({
@@ -101,6 +102,20 @@ function useMotion() {
   }, []);
 }
 
+function Feature({ id, no, title, lead, tone = '', children }) {
+  return (
+    <section className={`feat ${tone}`} aria-labelledby={`${id}-h`}>
+      <div className="wrap">
+        <div className="d-head fx-up">
+          <h2 id={`${id}-h`} className="t-title">{title}<span className="num">{no}</span></h2>
+          <p className="t-body muted">{lead}</p>
+        </div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   useMotion();
   return (
@@ -114,7 +129,7 @@ export default function App() {
       </header>
 
       <main>
-        {/* 1 표지 */}
+        {/* 1 표지: 실제 화면 한 장을 크게 */}
         <section id="cover" className="cover" aria-label="표지">
           <div className="meta">
             <div className="wrap">
@@ -124,11 +139,10 @@ export default function App() {
           </div>
           <div className="wrap cover-title">
             <h1 className="t-cover fx-up">공공 깃랩 업무 검색</h1>
+            <p className="cover-sub t-lead fx-up">업무 문장 하나로 다른 기관이 만든 도구를 찾는 공무원용 웹서비스</p>
           </div>
           <div className="cover-stage">
-            <div className="layer back"><div className="shot"><Pic name="c_g02_top" alt="업무 검색 화면" eager /></div></div>
-            <div className="layer main"><div className="shot"><Pic name="c_a01_top" alt="프로젝트 둘러보기 화면" eager /></div></div>
-            <div className="layer front"><div className="shot"><Pic name="c_a02_card" alt="근거 표식이 붙은 소개 카드" eager /></div></div>
+            <div className="shot"><Pic name="c_g02_top" alt="업무 문장으로 도구를 찾는 업무 검색 화면" eager /></div>
           </div>
         </section>
 
@@ -137,40 +151,37 @@ export default function App() {
           <div className="wrap fx-up">
             <h2 id="intro-h" className="t-display">공공 깃랩<span className="num">KRDS</span></h2>
             <div className="t-body muted">
-              <p>다른 기관이 만든 업무 도구를 찾는 공무원이 쓰는 웹서비스입니다. 여비 담당자가 출장비 계산을 입력하면 관련 프로젝트가 먼저 나옵니다. 소개 카드에서 용도와 실행 형태를 봅니다. README 원문에는 설치 방법이 적혀 있습니다.</p>
-              <p>개발자는 같은 프로젝트의 파일과 변경 이력을 엽니다. 화면은 범정부 디자인 시스템(KRDS)으로 다시 설계했습니다.</p>
+              <p>여비 담당자가 출장비 계산을 입력하면 관련 프로젝트가 먼저 나오는 화면</p>
+              <p>소개 카드에서 용도와 실행 형태를 보고 README 원문에서 설치 방법 확인</p>
+              <p>범정부 디자인 시스템(KRDS)으로 다시 설계한 목록과 현황판</p>
             </div>
           </div>
         </section>
 
-        {/* 3 좌우 분할 */}
-        <section className="split" aria-label="기존 현황판과 다시 설계한 화면">
+        {/* 3 As-Is와 To-Be 비교 */}
+        <section className="split" aria-labelledby="split-h">
+          <div className="wrap head fx-up split-head">
+            <h2 id="split-h" className="t-title">기존 현황판과 다시 설계한 목록</h2>
+            <p className="t-body muted">왼쪽은 기존 공공 깃랩 현황판, 오른쪽은 다시 설계한 프로젝트 둘러보기</p>
+          </div>
           <figure>
             <div className="in-img fx-big"><Pic name="c_asis_side" alt="기존 현황판 왼쪽 필터" /></div>
-            <figcaption className="t-cap">기존 현황판 2026. 11. 7.</figcaption>
+            <figcaption className="t-cap">As-Is 기존 현황판, 2026. 11. 7.</figcaption>
           </figure>
           <figure>
             <div className="in-img fx-big"><Pic name="c_a01_rows4" alt="다시 설계한 프로젝트 목록" /></div>
-            <figcaption className="t-cap">다시 설계한 프로젝트 둘러보기</figcaption>
+            <figcaption className="t-cap">To-Be 다시 설계한 프로젝트 둘러보기</figcaption>
           </figure>
         </section>
 
         {/* 4 문제 */}
         <section className="problem" aria-labelledby="problem-h">
           <div className="wrap head fx-up">
-            <h2 id="problem-h" className="t-title">이름만으로 용도를 모릅니다</h2>
-            <p className="t-body muted">2026. 10. 25. 기준으로 공개 프로젝트 671개를 셌습니다. 분야 표시가 없는 프로젝트는 412개였습니다. 설명이 빈 프로젝트는 273개였습니다. 엑셀 도구는 23개 계정에서 따로 올라왔습니다.</p>
+            <h2 id="problem-h" className="t-title">이름만 보이는 프로젝트 목록</h2>
+            <p className="t-body muted">2026. 10. 25. 기준 공개 프로젝트 671개 가운데 분야 표시 없음 412개, 설명이 빈 프로젝트 273개. 엑셀 도구는 23개 계정에서 따로 개발</p>
             <p className="src">출처: 공개 프로젝트 671개 직접 집계(2026. 10. 25.)</p>
           </div>
           <div className="scene">
-            <Marquee
-              items={PROBLEM_TILES}
-              render={(it) => (
-                <div style={{ paddingTop: `clamp(0px, ${(it.pad / 19.2).toFixed(2)}vw, ${it.pad}px)` }}>
-                  <Pic name={it.name} alt="" style={{ height: 'clamp(200px, 24vw, 440px)', width: 'auto' }} />
-                </div>
-              )}
-            />
             <div className="frame">
               <div className="fx-big"><Shot name="c_asis_cards" alt="기존 현황판 최근 활동 프로젝트 카드" /></div>
               <span className="cap t-cap">기존 현황판 최근 활동 프로젝트 2026. 11. 7.</span>
@@ -178,45 +189,25 @@ export default function App() {
           </div>
         </section>
 
-        {/* 5 조사 */}
+        {/* 5 조사: As-Is 주석 */}
         <section className="research" aria-labelledby="research-h">
           <div className="wrap">
             <div className="d-head fx-up">
-              <h2 id="research-h" className="t-title">GitHub와 같은 질문으로 비교했습니다</h2>
-              <p className="t-body muted">두 화면에서 같은 도구를 찾았습니다. 막히는 지점은 화면 위에 표시했습니다.</p>
+              <h2 id="research-h" className="t-title">GitHub와 같은 질문으로 나란히 비교</h2>
+              <p className="t-body muted">같은 도구를 두 화면에서 찾으며 막히는 지점을 화면 위에 표시</p>
             </div>
-            <div className="asis-pair fx-up">
-              <Annotated name="c_asis_filter" alt="기존 현황판 왼쪽 필터" legend={false}
-                notes={[{ x: 6, y: 15, w: 87, h: 16, t: '' }, { x: 6, y: 62, w: 87, h: 16, t: '' }]} />
-              <Annotated name="c_asis_table" alt="기존 현황판 프로젝트 표" start={3} legend={false}
-                notes={[{ x: 40, y: 10, w: 18, h: 68, t: '' }, { x: 30, y: 82, w: 9, h: 7, t: '' }]} />
+            <div className="asis-stack">
+              <div className="fx-up"><AnnoShot {...ASIS_FILTER} cardW={300} shotMax={360} /></div>
+              <div className="fx-up"><AnnoShot {...ASIS_TABLE} cardW={300} shotMax={760} cap="기존 현황판 프로젝트 표, 2026. 11. 7." /></div>
             </div>
-            <div className="notes-with-shot">
-              <ol className="notes fx-group">
-                <li><i>1</i><p className="t-body">분야 필터 35개에 시험용 값이 섞여 있었습니다. 미분류는 필터에 없었습니다.</p></li>
-                <li><i>2</i><p className="t-body">검색어를 바꿔도 주소가 그대로입니다. 같은 결과는 동료에게 보낼 수 없었습니다.</p></li>
-                <li><i>3</i><p className="t-body">설명 칸 글자는 11~13px입니다. KRDS 권고 16px보다 작습니다.</p></li>
-                <li><i>4</i><p className="t-body">분야를 적지 않은 프로젝트는 미분류로 표시됩니다.</p></li>
-              </ol>
-              <figure className="fx-up">
-                <div className="shot"><Pic name="c_asis_table2" alt="기존 현황판 프로젝트 표 가운데 설명 칸" /></div>
-                <figcaption className="cap t-cap">기존 현황판 설명 칸, 2026. 11. 7.</figcaption>
-              </figure>
+            <div className="gh fx-up">
+              <p className="addr t-cap">github.com/search?q=출장비&amp;type=repositories</p>
+              <AnnoShot {...GITHUB} cardW={300} />
             </div>
-            <p className="src">출처: 현황판 직접 확인(2026. 10. 2.), 화면은 2026. 11. 7.</p>
-          </div>
-          <div className="wrap gh fx-up">
-            <p className="addr t-cap">github.com/search?q=출장비&amp;type=repositories</p>
-            <Annotated name="c_gh" alt="GitHub 저장소 검색 결과" start={5}
-              notes={[
-                { x: 9, y: 2.5, w: 90, h: 6.5, t: 'GitHub는 검색어가 주소의 q 값으로 들어갑니다. 새로고침해도 같은 결과가 열립니다.' },
-                { x: 73, y: 15.5, w: 15, h: 5.5, t: '정렬을 바꾸면 주소의 정렬 값도 바뀝니다.' },
-              ]}
-              cap="GitHub 저장소 검색 2026. 11. 22. 검색어 출장비" />
-            <div className="readme">
+            <div className="readme fx-up">
               <h3 className="t-sub">README 전수 분석</h3>
-              <p className="t-body muted">공개 프로젝트 695개의 README를 모두 읽었습니다. 실행 환경을 적은 곳은 21.3%입니다. 라이선스가 없는 곳은 61.3%입니다.</p>
-              <p className="src">출처: 공개 프로젝트 README 전수 분석(2026. 10. 25.)</p>
+              <p className="t-body muted">공개 프로젝트 695개의 README 전부 확인, 실행 환경을 적은 곳 21.3%, 라이선스 없는 곳 61.3%</p>
+              <p className="src">출처: 공개 프로젝트 README 전수 분석(2026. 10. 25.), 현황판 직접 확인(2026. 10. 2.)</p>
             </div>
           </div>
         </section>
@@ -225,13 +216,13 @@ export default function App() {
         <section className="journey" aria-labelledby="journey-h">
           <div className="wrap">
             <div className="d-head fx-up">
-              <h2 id="journey-h" className="t-title">여정을 둘로 나눠 그렸습니다</h2>
-              <p className="t-body muted">비전공 공무원은 업무 문장으로 찾습니다. 단계를 누르면 그 단계 화면이 열립니다.</p>
+              <h2 id="journey-h" className="t-title">여정을 공무원과 개발자 둘로 나눠 그림</h2>
+              <p className="t-body muted">비전공 공무원은 업무 문장으로 찾고, 단계를 누르면 그 단계 화면이 열림</p>
             </div>
             <div className="fx-up"><Journey /></div>
             <div className="lane dev">
               <h3 className="t-sub">개발자</h3>
-              <p className="t-body muted lane-lead">AI 코딩 도구 안에서 같은 프로젝트를 조회합니다. 재사용인지 신규 개발인지 고릅니다.</p>
+              <p className="t-body muted lane-lead">AI 코딩 도구 안에서 같은 프로젝트를 조회하고 재사용과 신규 개발 중 선택</p>
               <div className="track fx-group">
                 <span className="rail" aria-hidden="true"><i /></span>
                 {DEV.map((s) => (
@@ -250,128 +241,79 @@ export default function App() {
           </figure>
         </section>
 
-        {/* 7 콘셉트 */}
-        <section className="concept" aria-labelledby="concept-h">
-          <div className="wrap">
-            <h2 id="concept-h" className="t-hero fx-up">업무 문장으로 찾습니다</h2>
-            <p className="body t-body muted fx-up">기본 구성은 그대로 두고 화면만 KRDS로 새로 만들었습니다. GitLab은 저장과 API 엔진으로 남겼습니다.</p>
-            <div className="fx-up">
-              <Annotated name="c_g02_top" alt="업무 검색 화면" className="side-notes"
-                notes={[
-                  { x: 20, y: 26.5, w: 71, h: 6, t: '찾으려는 업무를 문장으로 씁니다. 도구 이름을 몰라도 됩니다.' },
-                  { x: 20, y: 35.5, w: 17, h: 46, t: '기관마다 다른 주제는 12개 업무 분야로 묶었습니다.' },
-                  { x: 86.5, y: 43, w: 9.5, h: 3.5, t: '결과마다 README 기반 표식이 붙습니다.' },
-                  { x: 38.5, y: 48.5, w: 17, h: 3.5, t: '추천 이유가 한 줄로 보입니다.' },
-                ]} />
-            </div>
+        {/* 기능 1 업무 문장 검색 */}
+        <Feature id="f1" no="1" title="업무 문장 검색" lead="찾으려는 업무를 문장으로 쓰면 맞는 도구가 위에 올라옴" tone="gray">
+          <div className="fx-up"><AnnoShot {...F_SEARCH} /></div>
+          <div className="demo-wide fx-up">
+            <SearchDemo />
+            <p className="note t-cap">자동 재생, 입력과 결과 등장 반복</p>
           </div>
-          <Marquee className="concept-strip"
-            items={[{ n: 'c_g02_focus' }, { n: 'c_a02_card' }, { n: 'c_a01_filter' }, { n: 'c_a02_similar' }, { n: 'c_a02_tried' }, { n: 'c_d01_metrics' }]}
-            render={(it) => (<div className="shot"><Pic name={it.n} alt="" /></div>)} />
-        </section>
+        </Feature>
 
-        {/* 8 데모 1. 업무 문장 검색 */}
-        <section className="d2" aria-labelledby="d2-h">
-          <div className="wrap">
-            <div className="d-head fx-up">
-              <h2 id="d2-h" className="t-title">업무 문장을 그대로 입력합니다</h2>
-              <p className="t-body">출장 여비 정산을 입력하면 출장비 정산 도우미가 첫 결과로 나옵니다. 검색어는 주소에 남아 새로고침해도 같은 결과가 열립니다.</p>
-            </div>
-            <div className="demo-wide fx-up">
-              <SearchDemo />
-              <p className="note t-cap">자동 재생. 입력과 결과 등장이 스스로 반복됩니다.</p>
-            </div>
-            <div className="img1">
-              <div className="fx-up">
-                <h3 className="t-lead">추천 이유가 붙은 결과</h3>
-                <p className="t-body">결과마다 왜 나왔는지 한 줄이 붙습니다. 업무 문장 19개 중 18개에서 상위 다섯 안에 맞는 도구가 나왔습니다.</p>
-                <p className="src">출처: 업무 문장 검색 시험(2026. 10. 28.)</p>
-              </div>
-              <div className="fx-up"><Shot name="c_g02_top2" alt="업무 검색 결과 두 건" /></div>
-            </div>
+        {/* 기능 2 AI 소개 카드 */}
+        <Feature id="f2" no="2" title="AI 소개 카드" lead="README를 읽고 쓰임새와 실행 형태, 이용 조건을 같은 형식으로 정리">
+          <div className="fx-up"><AnnoShot {...F_CARD} /></div>
+          <div className="fx-up an-next"><AnnoShot {...F_CARD_README} /></div>
+          <div className="demo-wide demo-narrow fx-up">
+            <EvidenceCard />
+            <p className="note t-cap">자동 재생, 근거 줄 단추가 차례로 눌리고 README 원문에서 그 줄이 밝아짐</p>
           </div>
-        </section>
+        </Feature>
 
-        {/* 9 데모 2. 업무 분야 분류 */}
-        <section className="fields-sec" aria-labelledby="fields-h">
-          <div className="wrap">
-            <div className="d-head fx-up">
-              <h2 id="fields-h" className="t-title">분야를 고르면 도구만 남습니다</h2>
-              <p className="t-body muted">기관마다 다르게 적은 주제를 12개 공통 업무 분야로 묶었습니다. 프로젝트 하나에 분야는 둘까지 붙습니다. 여비 담당자는 회계 분야에서 출장 도구를 찾습니다.</p>
-            </div>
-            <div className="demo-wide fx-up">
-              <FieldFilter />
-              <p className="note t-cap">자동 재생. 회계 분야를 고르고 목록이 줄어듭니다.</p>
-            </div>
+        {/* 기능 3 업무 분야 분류 */}
+        <Feature id="f3" no="3" title="업무 분야 분류" lead="기관마다 다른 주제를 12개 공통 업무 분야로 묶고 프로젝트 하나에 분야는 둘까지" tone="gray">
+          <div className="fx-up"><AnnoShot {...F_FIELD} /></div>
+          <div className="demo-wide fx-up">
+            <FieldFilter />
+            <p className="note t-cap">자동 재생, 회계 분야를 고르면 목록이 줄어듦</p>
           </div>
-        </section>
+        </Feature>
 
-        {/* 10 데모 3. 소개 카드 근거 */}
-        <section className="d1" aria-labelledby="d1-h">
-          <div className="wrap">
-            <div className="d-head fx-up">
-              <h2 id="d1-h" className="t-title">카드 한 줄마다 출처가 붙습니다</h2>
-              <p className="t-body muted">AI가 README를 읽습니다. 쓰임새와 실행 형태, 이용 조건을 같은 형식으로 정리합니다. 근거 줄 번호는 원문 길이와 대조합니다. 근거가 없으면 칸을 비웁니다.</p>
-            </div>
-            <div className="stage">
-              <div className="fx-up"><EvidenceCard /></div>
-              <div className="right fx-up">
-                <p className="t-lead">자동 재생</p>
-                <p className="t-body muted" style={{ marginTop: 12 }}>근거 줄 단추가 차례로 눌리고 README 원문에서 그 줄이 밝아집니다. 한계 칸은 근거가 없어 정보 부족으로 남습니다.</p>
-              </div>
-            </div>
-            <figure className="readme-shot fx-up">
-              <div className="shot"><Pic name="c_a02_readme" alt="피그마 소개 카드 README 상자" /></div>
-              <figcaption className="cap t-cap">피그마 소개 카드 README 상자, 근거 줄 3~5 표시</figcaption>
-            </figure>
+        {/* 기능 4 유사 프로젝트 */}
+        <Feature id="f4" no="4" title="유사 프로젝트" lead="새로 만들기 전에 비슷한 도구를 먼저 보여 주는 안내">
+          <div className="fx-up"><AnnoShot {...F_SIMILAR} /></div>
+          <div className="demo-wide fx-up">
+            <SimilarTools />
+            <p className="note t-cap">자동 재생, 후보가 하나씩 올라오고 차이 줄이 따라 붙음</p>
           </div>
-        </section>
+        </Feature>
 
-        {/* 11 전체 폭 그림 */}
-        <section className="full" aria-label="배포 화면 1920px">
-          <div className="fx-big"><Pic name="deploy_1920" alt="1920px 폭으로 연 배포 화면" /></div>
-        </section>
+        {/* 기능 5 현황판 */}
+        <Feature id="f5" no="5" title="현황판" lead="분야 확정과 카드 생성 상태를 줄로 나눠 보여 주고 분야 행을 누르면 그 분야 목록이 열림" tone="gray">
+          <div className="fx-up"><AnnoShot {...F_BOARD} /></div>
+        </Feature>
 
-        {/* 12 데모 4. 비슷한 도구 */}
-        <section className="sim-sec" aria-labelledby="sim-h">
-          <div className="wrap">
-            <div className="d-head fx-up">
-              <h2 id="sim-h" className="t-title">비슷한 도구를 먼저 보여 줍니다</h2>
-              <p className="t-body">프로젝트 이름과 카드의 업무 설명이 겹치면 비슷한 도구로 묶습니다. 보고 있는 프로젝트는 후보에서 빠집니다.</p>
-            </div>
-            <div className="demo-wide fx-up">
-              <SimilarTools />
-              <p className="note t-cap">자동 재생. 후보가 하나씩 올라오고 차이 줄이 따라 붙습니다.</p>
-            </div>
-          </div>
-        </section>
+        {/* 기능 6 README 초안, 써 봤어요 */}
+        <Feature id="f6" no="6" title="README 초안과 써 봤어요" lead="공개 전 README 초안 예시와 써 본 기록을 한 화면에서 확인">
+          <div className="fx-up"><AnnoShot {...F_DRAFT} /></div>
+        </Feature>
 
-        {/* 13 데모 5. 점검 중 안내 */}
+        {/* 점검 중 안내 */}
         <section className="status-sec" aria-labelledby="status-h">
           <div className="wrap">
             <div className="d-head fx-up">
-              <h2 id="status-h" className="t-title">점검 중에도 목록이 열립니다</h2>
-              <p className="t-body muted">공공 깃랩이 점검에 들어가면 저장 자료로 목록을 보여 줍니다. 머리 띠에 점검 안내가 뜹니다. 자료 시점도 함께 적습니다.</p>
+              <h2 id="status-h" className="t-title">점검 중에도 열리는 목록<span className="num">7</span></h2>
+              <p className="t-body muted">공공 깃랩이 점검에 들어가면 저장 자료로 목록을 보여 주고 머리 띠에 자료 시점을 적음</p>
             </div>
             <div className="demo-wide fx-up">
               <StatusBanner />
-              <p className="note t-cap">자동 재생. 실시간 조회가 멈추면 안내 띠가 내려옵니다.</p>
+              <p className="note t-cap">자동 재생, 실시간 조회가 멈추면 안내 띠가 내려옴</p>
             </div>
           </div>
         </section>
 
-        {/* 14 데모 6. 화면 폭 */}
+        {/* 화면 폭 */}
         <section className="d3" aria-labelledby="d3-h">
           <div className="wrap">
             <div className="d-head fx-up">
-              <h2 id="d3-h" className="t-title">화면 폭 다섯 단계</h2>
-              <p className="t-body muted">360부터 1,920px까지 메뉴와 본문 배치를 정했습니다. 폭이 스스로 바뀌고 단추를 누르면 그 폭에서 멈춥니다.</p>
+              <h2 id="d3-h" className="t-title">화면 폭 다섯 단계<span className="num">8</span></h2>
+              <p className="t-body muted">360부터 1,920px까지 메뉴와 본문 배치를 정했고 단추를 누르면 그 폭에서 멈춤</p>
             </div>
             <div className="fx-up"><Widths /></div>
             <div className="grid2">
               <div className="fx-up">
                 <h3 className="t-lead">좁은 화면 메뉴</h3>
-                <p className="t-body muted">360px에서는 왼쪽 메뉴가 서랍으로 접힙니다. 검색칸은 두 줄로 나뉩니다.</p>
+                <p className="t-body muted">360px에서 왼쪽 메뉴는 서랍으로 접히고 검색칸은 두 줄로 나뉨</p>
               </div>
               <div className="phones fx-up">
                 <Shot name="deploy_360" alt="360px 폭 배포 화면" />
@@ -381,33 +323,27 @@ export default function App() {
           </div>
         </section>
 
-        {/* 15 현황판 */}
-        <section className="board" aria-labelledby="board-h">
-          <div className="wrap">
-            <div className="d-head fx-up">
-              <h2 id="board-h" className="t-title">분야 행을 누르면 목록이 열립니다</h2>
-              <p className="t-body muted">현황판은 분야 확정과 카드 생성 상태를 줄로 나눠 보여 줍니다.</p>
-            </div>
-          </div>
-          <div className="board-wide fx-up">
-            <Annotated name="c_d01_ab" alt="분야별 현황판 지표 A와 지표 B"
-              notes={[{ x: 50.5, y: 36, w: 49.5, h: 50, t: '분야 한 줄을 누르면 그 분야 목록이 열립니다.' }]}
-              cap="분야별 현황판 지표 A와 지표 B" />
-          </div>
-          <div className="wrap">
-            <div className="img2 fx-up">
-              <Shot name="c_a01_rows4" alt="분야 표시가 붙은 프로젝트 둘러보기 목록" />
-              <span className="cap t-cap">분야 행에서 이어지는 프로젝트 둘러보기</span>
-            </div>
-          </div>
-        </section>
-
-        {/* 16 어두운 화면 */}
+        {/* 어두운 화면과 부가 화면 */}
         <section className="elements dark" aria-labelledby="elements-h">
           <div className="wrap">
             <div className="d-head fx-up">
-              <h2 id="elements-h" className="t-title">어두운 화면을 더했습니다</h2>
-              <p className="t-body">KRDS에 없는 어두운 화면은 결정 기록으로 남겼습니다. 바탕은 #131416이고 본문 대비는 16.89:1입니다.</p>
+              <h2 id="elements-h" className="t-title">어두운 화면에서 본 부가 기능</h2>
+              <p className="t-body">KRDS에 없는 어두운 화면은 결정 기록으로 남김, 바탕 #131416, 본문 대비 16.89:1</p>
+            </div>
+            <div className="dark-feat fx-up">
+              <h3 className="t-sub">공개 준비 점검<span className="num">9</span></h3>
+              <p className="t-body muted">README와 이용 조건 같은 아홉 항목을 충족, 보완 필요, 확인 불가로 점검</p>
+              <AnnoShot {...F_PUBLISH} />
+            </div>
+            <div className="dark-feat fx-up">
+              <h3 className="t-sub">업무 도우미 패널<span className="num">10</span></h3>
+              <p className="t-body muted">어느 화면에서든 업무를 설명하면 오른쪽 패널에서 추천 도구가 답으로 올라옴</p>
+              <AnnoShot {...F_PANEL} />
+            </div>
+            <div className="dark-feat fx-up">
+              <h3 className="t-sub">AI 코딩 도구 연결 안내<span className="num">11</span></h3>
+              <p className="t-body muted">개발 도구 안에서 공개 프로젝트를 검색하고 상세와 유사 프로젝트를 조회하는 설정 안내</p>
+              <AnnoShot {...F_MCP} />
             </div>
             <figure className="decnote fx-up">
               <Shot name="c_dec" alt="피그마 결정 기록 D-01 어두운 화면" pan />
@@ -415,54 +351,45 @@ export default function App() {
             </figure>
             <div className="d-head fx-up wipe-head">
               <h3 className="t-sub">밝은 화면과 어두운 화면</h3>
-              <p className="t-body">두 화면은 같은 배치입니다. 좌우로 끌어 비교해 보세요.</p>
+              <p className="t-body">같은 배치의 두 화면, 좌우로 끌어 비교</p>
             </div>
             <Wipe />
           </div>
         </section>
 
-        {/* 17 디자이너가 한 일 */}
+        {/* 디자이너가 한 일 */}
         <section className="role-sec" aria-labelledby="role-h">
           <div className="wrap">
             <div className="d-head fx-up">
               <h2 id="role-h" className="t-title">디자이너가 한 일</h2>
-              <p className="t-body muted">피그마에서 KRDS로 목록과 카드 배치를 설계했습니다. 화면 크기에 따라 메뉴와 본문이 바뀌는 방식을 정리했습니다. 카드 근거 표시와 분야별 현황판을 그렸습니다. 공통 문구와 부품도 맞췄습니다. 코드 검토도 함께 맡았습니다.</p>
+              <p className="t-body muted">피그마에서 KRDS 부품으로 화면을 짓고 코드 검토까지 맡음</p>
             </div>
-            <div className="role-grid">
-              <figure className="fx-up">
-                <Shot name="a01_list" alt="피그마 프로젝트 목록 설계" pan />
-                <figcaption className="cap t-cap">피그마 목록 설계 A-01</figcaption>
-              </figure>
-              <figure className="fx-up">
-                <Shot name="a02_evidence" alt="피그마 소개 카드 근거 표시 설계" pan />
-                <figcaption className="cap t-cap">피그마 소개 카드 근거 표시 A-02</figcaption>
-              </figure>
+            <div className="lane dev role-lane">
+              <div className="track fx-group">
+                <span className="rail" aria-hidden="true"><i /></span>
+                {ROLE.map((s) => (
+                  <div className="stage-step" key={s.b}>
+                    <b>{s.b}</b>
+                    <span className="t-body">{s.s}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* 18 얻어낸 것 */}
-        <section className="learn-sec" aria-labelledby="learn-h">
-          <div className="wrap">
-            <div className="d-head fx-up">
-              <h2 id="learn-h" className="t-title">카드 한 줄에도 출처가 필요합니다</h2>
-              <p className="t-body">실행 형태와 이용 조건을 나눠 적었습니다. 웹에서 바로 여는 도구와 설치가 필요한 도구를 갈라 안내합니다. 점검이 길어질 때는 이용자가 보는 자료의 시점을 먼저 알려야 합니다.</p>
-            </div>
+            <p className="src">출처: AI를 활용한 공공서비스 직접개발 결과 보고서 역할 분담</p>
             <div className="next fx-up">
               <h3 className="t-sub">다음 단계</h3>
-              <p className="t-body">실제 업무 표현 20개로 상위 다섯 후보를 견줍니다. 출장비 계산과 여비 정산처럼 다른 말도 같은 도구로 이어 줍니다. 분야별 표본 50건을 원문과 대조합니다. 원본 문서가 바뀐 카드부터 다시 만듭니다.</p>
+              <p className="t-body muted">실제 업무 표현 20개로 상위 다섯 후보 비교, 출장비 계산과 여비 정산처럼 다른 말을 같은 도구로 연결, 분야별 표본 50건 원문 대조, 원본 문서가 바뀐 카드부터 재작성</p>
             </div>
-            <div className="fx-big learn-shot"><Pic name="deploy_dark_1440" alt="어두운 화면으로 연 배포 화면" /></div>
           </div>
         </section>
 
-        {/* 19 직접 써 보기 */}
+        {/* 직접 써 보기 */}
         <section className="live" aria-labelledby="live-h">
           <div className="wrap">
             <div className="top-row fx-up">
               <div className="d-head">
-                <h2 id="live-h" className="t-title">직접 써 보기</h2>
-                <p className="t-body muted">2026. 10. 30. 저장 자료로 열리는 배포 화면입니다.</p>
+                <h2 id="live-h" className="t-title">직접 눌러 보는 배포 화면</h2>
+                <p className="t-body muted">2026. 10. 30. 저장 자료로 열리는 실제 서비스</p>
               </div>
               <a className="t-body" href={LIVE_URL} target="_blank" rel="noreferrer">새 창으로 열기</a>
             </div>
@@ -470,10 +397,10 @@ export default function App() {
           </div>
         </section>
 
-        {/* 20 결과와 크레딧 */}
+        {/* 결과와 크레딧 */}
         <section className="end" aria-labelledby="end-h">
           <div className="wrap">
-            <p className="closing t-closing fx-up">2026. 10. 30. 수집본 728건 가운데 172건은 AI 요약과 근거 줄로 정리했습니다. 기관마다 다른 주제는 12개 업무 분야로 묶었습니다.</p>
+            <p className="closing t-closing fx-up">2026. 10. 30. 수집본 728건 가운데 172건을 AI 요약과 근거 줄로 정리, 기관마다 다른 주제를 12개 업무 분야로 분류</p>
             <div className="end-grid fx-up">
               <h2 id="end-h" className="t-sub">공공 깃랩 KRDS 재설계</h2>
               <dl className="credit">

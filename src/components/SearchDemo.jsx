@@ -78,7 +78,7 @@ export default function SearchDemo() {
         <div className="url">
           <span className="host">{BASE}</span><span className="qs">?q=<em>{typed}</em></span>
         </div>
-        <span className="addr-tag t-cap">자동 재생</span>
+        <span className="addr-tag t-cap">재현 화면</span>
       </div>
       <div className="page">
         <h4>업무 검색</h4>

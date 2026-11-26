@@ -27,7 +27,7 @@ const label = (l) => (l[0] === l[1] ? `README ${l[0]}줄` : `README ${l[0]}~${l[
 const JUMPABLE = ROWS.filter((r) => r.lines);
 
 export default function EvidenceCard() {
-  const [hit, setHit] = useState(null);
+  const [hit, setHit] = useState('하는 일');
   const box = useRef(null);
   const wrap = useRef(null);
   const lineRefs = useRef([]);
@@ -92,7 +92,7 @@ export default function EvidenceCard() {
         </ol>
       </div>
       <p className="hint" aria-live="polite">
-        {active ? `${active.k} 칸의 근거, ${label(active.lines)}` : '근거 줄 단추를 누르면 README 원문의 그 줄이 밝아짐'}
+        {active ? `${active.k} 칸의 근거 ${label(active.lines)}` : '근거 줄 단추를 누르면 README 원문의 그 줄이 밝아짐'}
       </p>
     </div>
   );

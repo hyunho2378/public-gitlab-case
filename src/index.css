@@ -640,3 +640,73 @@ button:active { transform: translateY(1px); }
 
 .feat .demo-narrow { width: min(100%, 1040px); }
 .an-dot { width: 20px; height: 20px; margin: -10px 0 0 -10px; font-size: 12px; }
+
+
+/* ===== 차분한 문서형으로 정리 (2026. 11. 26.) =====
+   스크롤 연출(끌려 들어오기, 확대, 시차, 저절로 재생)을 쓰지 않는다. 모든 요소는 처음부터 제 자리에 있다. */
+.top { transform: none; height: 56px; }
+.top .bar { display: none; }
+html { scroll-padding-top: 72px; }
+
+/* 표지: 제목과 한 줄 설명, 프로젝트 정보 */
+.cover { height: auto; min-height: 0; background: var(--bg-gray); overflow: visible; padding: clamp(120px, 12vw, 190px) 0 clamp(72px, 7vw, 120px); }
+.cover-in { max-width: 1040px; margin-left: auto; margin-right: auto; }
+.cover .t-cover { font-size: clamp(34px, 3.9vw, 60px); line-height: 1.2; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
+.cover .cover-sub { margin-top: 22px; max-width: 640px; color: var(--sub); font-weight: 500; line-height: 1.55; }
+.cover-meta { margin-top: clamp(56px, 6vw, 96px); display: grid; gap: 0; }
+.cover-meta > div { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 24px; padding-block: 18px; box-shadow: 0 -1px 0 rgba(19, 20, 22, 0.1); }
+.cover-meta > div:last-child { box-shadow: 0 -1px 0 rgba(19, 20, 22, 0.1), 0 1px 0 rgba(19, 20, 22, 0.1); }
+.cover-meta dt { color: var(--mute); font-weight: 600; font-size: var(--t-body); line-height: 1.6; }
+.cover-meta dd { font-size: var(--t-body); line-height: 1.6; color: var(--ink); }
+@media (max-width: 600px) { .cover-meta > div { grid-template-columns: 1fr; gap: 2px; } }
+
+/* 본문 폭 정렬: 표지와 소개도 같은 왼쪽 선 */
+.intro .wrap, .cover-in { max-width: var(--wrap); }
+.cover-in { width: min(100% - 2 * var(--gx), var(--wrap)); }
+.cover .cover-sub, .cover-meta { max-width: 860px; }
+
+/* 연출 없는 기본 상태 */
+.an-tint { opacity: 1; transition: none; }
+.an-card { opacity: 1; transform: none; transition: none; }
+.an-line path { stroke-dashoffset: 0; transition: none; }
+.an-line .core, .an-line .halo { transform: scale(1); transition: none; }
+.lane .rail i { transform: scaleX(1); transition: none; }
+.res { opacity: 1; transform: none; transition: none; }
+.journey-view .shot, .viewport .shot { animation: none; }
+.fields .cursor { display: none; }
+.fields .pick { display: inline-flex; align-items: center; gap: 10px; width: 100%; padding: 0; text-align: left; color: inherit; font-weight: inherit; }
+.fields .pick:hover { color: var(--blue); }
+
+/* 화면 캡처는 본문 폭 안에서 적당한 크기로 */
+.demo-wide { width: min(100%, 1100px); }
+.feat .demo-narrow { width: min(100%, 1040px); }
+.problem .frame { width: min(100%, 1040px); margin: 0; }
+.problem .scene { margin-top: clamp(28px, 2.6vw, 48px); }
+.problem .frame .shot { box-shadow: var(--e2); }
+.problem { overflow: visible; }
+.problem .head p, .problem .head h2, .problem .head .src { max-width: 860px; }
+.problem .head, .problem .scene { width: min(100% - 2 * var(--gx), var(--wrap)); margin-inline: auto; }
+.journey-view { width: min(100%, 980px); }
+.journey .ia { background: var(--bg-gray); padding-block: clamp(24px, 2.4vw, 44px); }
+.journey .ia img { width: min(100% - 2 * var(--gx), 1100px); margin-left: auto; margin-right: auto; }
+.decnote { width: min(100%, 1040px); }
+.decnote .shot.pan { aspect-ratio: 16 / 9; }
+.decnote .shot.pan img { position: absolute; left: 0; top: 0; transform: none !important; }
+.elements .wipe { width: min(100%, 1040px); margin-left: 0; }
+.elements .wipe-labels { width: min(100%, 1040px); }
+
+/* 기존과 다시 설계한 화면 비교 */
+.split { display: block; background: var(--bg-gray); padding-block: clamp(48px, 4vw, 76px); }
+.split .d-head { max-width: 860px; margin-bottom: clamp(24px, 2.4vw, 40px); }
+.split .d-head p { margin-top: 18px; }
+.split-grid { display: grid; grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr); gap: clamp(24px, 3vw, 56px); align-items: start; max-width: 1100px; }
+.split-grid figure { margin: 0; position: static; aspect-ratio: auto; overflow: visible; }
+.split-grid .shot { height: clamp(280px, 30vw, 440px); }
+.split-grid .shot img { width: 100%; height: 100%; object-fit: cover; object-position: 0 0; }
+.split-grid figcaption { position: static; padding: 0; background: none; color: var(--sub); border-radius: 0; }
+@media (max-width: 767px) { .split-grid { grid-template-columns: 1fr; } .split-grid .shot { height: 320px; } }
+
+.status-sec { background: var(--bg); }
+.d3 { background: var(--bg-gray); }
+.d3 .phones .shot:first-child, .d3 .phones .shot:last-child { transform: none; margin-top: 0; }
+.live .frame { height: auto; aspect-ratio: 16 / 10; max-width: 1350px; } @media (max-width: 767px) { .live .frame { aspect-ratio: auto; height: 70svh; } } .live-open img { object-position: 0 0; }

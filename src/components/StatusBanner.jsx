@@ -13,7 +13,7 @@ const ROWS = [
 export default function StatusBanner() {
   const wrap = useRef(null);
   const live = useInView(wrap, 0.3);
-  const [step, setStep] = useState(REDUCED() ? 2 : 0);
+  const [step, setStep] = useState(2);
 
   useEffect(() => {
     if (!live || REDUCED()) return undefined;

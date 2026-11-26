@@ -34,7 +34,7 @@ export default function SimilarTools() {
     <div className="browser sim-demo" ref={wrap} role="group" aria-label="비슷한 도구 비교 재현 화면">
       <div className="addr">
         <div className="url"><span className="host">hyunho2378.github.io/ai-public-gitlab/projects/41/about</span></div>
-        <span className="addr-tag t-cap">자동 재생</span>
+        <span className="addr-tag t-cap">재현 화면</span>
       </div>
       <div className="page">
         <h4>유사 프로젝트 {CAND.length}</h4>

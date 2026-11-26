@@ -46,7 +46,7 @@ export default function FieldFilter() {
     <div className="browser filter-demo" ref={wrap} role="group" aria-label="업무 분야 필터 재현 화면">
       <div className="addr">
         <div className="url"><span className="host">hyunho2378.github.io/ai-public-gitlab/projects</span><span className="qs">{on ? <>?field=<em>{PICK}</em></> : null}</span></div>
-        <span className="addr-tag t-cap">자동 재생</span>
+        <span className="addr-tag t-cap">재현 화면</span>
       </div>
       <div className="page two">
         <div className="fields">
@@ -54,9 +54,17 @@ export default function FieldFilter() {
           <ul>
             {FIELDS.map((f) => (
               <li key={f} className={f === PICK && on ? 'on' : ''}>
-                <span className={`tick${f === PICK && on ? ' on' : ''}`} aria-hidden="true" />
-                {f}
-                {f === PICK && cursor ? <i className="cursor" aria-hidden="true" /> : null}
+                {f === PICK ? (
+                  <button type="button" className="pick" aria-pressed={on} onClick={() => setOn((v) => !v)}>
+                    <span className={`tick${on ? ' on' : ''}`} aria-hidden="true" />
+                    {f}
+                  </button>
+                ) : (
+                  <>
+                    <span className="tick" aria-hidden="true" />
+                    {f}
+                  </>
+                )}
               </li>
             ))}
           </ul>

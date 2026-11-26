@@ -15,7 +15,6 @@ export default function Home() {
       <section className="cs-hero" aria-labelledby="hero-h">
         <div className="cs-wrap cs-hero-in">
           <div className="cs-hero-text">
-            <Badge tone="bg-primary">사업 소개</Badge>
             <h1 id="hero-h" className="cs-hero-h">다른 기관이 만든 도구를 업무 문장으로 찾는 공공 깃랩</h1>
             <p className="cs-hero-sub">비전공 공무원이 하는 일을 문장으로 쓰면 맞는 도구와 근거를 보여 주는 웹서비스</p>
             <form className="cs-search" onSubmit={onSearch} role="search">

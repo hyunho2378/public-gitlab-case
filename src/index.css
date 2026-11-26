@@ -286,5 +286,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   .krds-table-wrap .tbl th, .krds-table-wrap .tbl td { padding: 10px 8px; font-size: 15px; line-height: 1.5; word-break: keep-all; }
   .krds-table-wrap .tbl col { width: auto !important; }
   .cs-archive th:nth-child(1), .cs-archive td:nth-child(1), .cs-archive th:nth-child(4), .cs-archive td:nth-child(4) { display: none; }
-  .cs-news th:nth-child(2), .cs-news td:nth-child(2) { display: none; }
+  .cs-news th:nth-child(2), .cs-news td:nth-child(2), .cs-news th:nth-child(4), .cs-news td:nth-child(4) { display: none; }
+  .cs-diag th:nth-child(3), .cs-diag td:nth-child(3) { display: none; }
 }
+
+/* 줄바꿈: 두 줄 이상 글은 줄 길이를 맞춰 끝줄에 한두 글자만 남지 않게 */
+.cs-hero-sub, .cs-lead, .cs-page-sub, .cs-quick span, .col p, .cs-step-text p, .cs-note, .cs-src, .cs-cap, .an-text, .cs-insight, .stage-step span, .cs-kogl, .accordion-body, .krds-info-list li, .krds-table-wrap td, .cs-goal { text-wrap: balance; }
+.cs-hero-h { margin-top: 0; }
+.cs-board td:nth-child(n) time, .cs-recent time { white-space: nowrap; }

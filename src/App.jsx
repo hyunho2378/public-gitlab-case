@@ -34,8 +34,8 @@ function Header({ route }) {
                   </a>
                 </h2>
                 <div className="header-actions">
-                  <a className="krds-btn medium secondary cs-live" href={LIVE_URL} target="_blank" rel="noreferrer" title="새 창 열기">
-                    웹 서비스 <i className="svg-icon ico-go" />
+                  <a className="krds-btn medium secondary cs-live" href={LIVE_URL} target="_blank" rel="noreferrer">
+                    웹 서비스
                   </a>
                   <button type="button" className="btn-navi all" aria-controls="cs-mobile-nav" aria-expanded={open} onClick={() => setOpen(!open)}>전체메뉴</button>
                 </div>

@@ -30,21 +30,21 @@ function Background() {
           <Donut value={273} total={671} title="공개 프로젝트 671개 중" a="설명이 빈 프로젝트 273개" b="설명 있음 398개" insight="프로젝트 10개 가운데 4개는 설명 칸이 빔" />
           <Bars title="README 695개 중" rows={[{ l: '라이선스가 없는 곳', v: 61.3, c: '#256ef4' }, { l: '실행 환경을 적은 곳', v: 21.3, c: '#0f2a5c' }]} insight="실행 환경을 적은 README는 5개 가운데 1개" />
         </div>
-        <p className="cs-src">출처: 공개 프로젝트 직접 집계와 README 전수 분석(2026. 10. 25.)</p>
+        <p className="cs-src">출처: 공개 프로젝트 직접 집계와 README 전수 분석(2026. 10. 25.)</p>
       </Section>
 
       <Section id="b-table" title="현황 진단 표">
         <div className="krds-table-wrap">
-          <table className="tbl col data">
+          <table className="tbl col data cs-diag">
             <caption>공공 깃랩 기존 화면의 현황 진단 항목과 내용</caption>
             <colgroup><col style={{ width: '22%' }} /><col /><col style={{ width: '26%' }} /></colgroup>
             <thead><tr><th scope="col">구분</th><th scope="col">현황</th><th scope="col">기준</th></tr></thead>
             <tbody>
-              <tr><th scope="row">분야 표시</th><td>공개 프로젝트 671개 가운데 412개에 없음(61.4%)</td><td>직접 집계 2026. 10. 25.</td></tr>
-              <tr><th scope="row">설명 칸</th><td>공개 프로젝트 671개 가운데 273개가 빔(40.7%)</td><td>직접 집계 2026. 10. 25.</td></tr>
-              <tr><th scope="row">라이선스</th><td>README 695개 가운데 61.3%에 없음</td><td>전수 분석 2026. 10. 25.</td></tr>
-              <tr><th scope="row">실행 환경</th><td>README 695개 가운데 21.3%만 적음</td><td>전수 분석 2026. 10. 25.</td></tr>
-              <tr><th scope="row">분야 필터</th><td>35개에 시험용 값이 섞이고 검색어를 바꿔도 주소가 그대로</td><td>현황판 직접 확인 2026. 10. 2.</td></tr>
+              <tr><th scope="row">분야 표시</th><td>공개 프로젝트 671개 가운데 412개에 없음(61.4%)</td><td>직접 집계 2026. 10. 25.</td></tr>
+              <tr><th scope="row">설명 칸</th><td>공개 프로젝트 671개 가운데 273개가 빔(40.7%)</td><td>직접 집계 2026. 10. 25.</td></tr>
+              <tr><th scope="row">라이선스</th><td>README 695개 가운데 61.3%에 없음</td><td>전수 분석 2026. 10. 25.</td></tr>
+              <tr><th scope="row">실행 환경</th><td>README 695개 가운데 21.3%만 적음</td><td>전수 분석 2026. 10. 25.</td></tr>
+              <tr><th scope="row">분야 필터</th><td>35개에 시험용 값이 섞이고 검색어를 바꿔도 주소가 그대로</td><td>현황판 직접 확인 2026. 10. 2.</td></tr>
             </tbody>
           </table>
         </div>
@@ -52,7 +52,7 @@ function Background() {
 
       <Section id="b-asis" title="기존 화면 점검" lead="기존 현황판 표와 GitHub 저장소 검색 화면을 열어 막힌 지점을 표시했음.">
         <div className="cs-stack">
-          <AnnoShot {...ASIS_TABLE} cardW={280} shotMax={880} cap="기존 현황판 프로젝트 표 2026. 11. 7." />
+          <AnnoShot {...ASIS_TABLE} cardW={280} shotMax={880} cap="기존 현황판 프로젝트 표 2026. 11. 7." />
           <AnnoShot {...GITHUB} cardW={280} shotMax={880} />
         </div>
       </Section>

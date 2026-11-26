@@ -13,15 +13,14 @@ export const SHOTS = {
 // 1 업무 문장 검색 (G-02 업무 검색)
 export const F_SEARCH = {
   ...SHOTS.g02,
-  crop: { x: 300, y: 240, w: 1200, h: 560 },
+  crop: { x: 300, y: 190, w: 1200, h: 600 },
   side: 'right',
   alt: '업무 문장으로 찾은 AI 추천 결과 화면',
   cap: '피그마 G-02 업무 검색 1440px',
   notes: [
     { box: [318, 277, 1169, 52], cat: 'Interaction', text: '검색 단추를 누르는 동안 처리 중 표시와 입력칸 아래 한 줄 오류 안내' },
-    { box: [589, 368, 898, 22], cat: 'Default value', text: '검색어와 분야와 자료 기준을 적은 한 줄 조건 글자' },
     { box: [589, 407, 898, 28], cat: 'Accessibility', text: '반짝임 표식은 장식이고 제목은 AI 추천 다음 일반 결과로 구분' },
-    { box: [589, 435, 898, 175], cat: 'Data state', text: '한 행에 추천 이유와 분야와 유사 프로젝트 단추' },
+    { box: [589, 435, 898, 175], fy: 0.75, cat: 'Data state', text: '한 행에 추천 이유와 분야와 유사 프로젝트 단추' },
   ],
 };
 
@@ -52,14 +51,13 @@ export const F_CARD_README = {
 // 3 업무 분야 분류 (A-01 둘러보기)
 export const F_FIELD = {
   ...SHOTS.a01,
-  crop: { x: 300, y: 240, w: 1200, h: 500 },
+  crop: { x: 300, y: 120, w: 1200, h: 640 },
   side: 'right',
   alt: '분야 표시와 근거 표식이 붙은 프로젝트 둘러보기 목록',
   cap: '피그마 A-01 프로젝트 둘러보기 1440px',
   notes: [
     { box: [318, 246, 1169, 77], cat: 'Responsive', text: '360px에서는 검색칸 한 줄 아래 분야 단추와 날짜 단추 한 줄로 쌓임' },
     { box: [318, 332, 1169, 82], cat: 'Interaction', text: '입력하면 업무 도우미 패널로 이어지고 입력칸 이름은 업무 설명 입력' },
-    { box: [318, 423, 1169, 21], cat: 'Accessibility', text: '자료 기준 줄과 오른쪽 근거 범례' },
     { box: [318, 453, 1169, 110], cat: 'Data state', text: '소개 자료가 모자란 행은 소개 자료 부족 글자 표시' },
   ],
 };
@@ -67,13 +65,12 @@ export const F_FIELD = {
 // 4 유사 프로젝트 (A-02 유사 프로젝트 5)
 export const F_SIMILAR = {
   ...SHOTS.a02,
-  crop: { x: 300, y: 770, w: 860, h: 500 },
+  crop: { x: 300, y: 735, w: 860, h: 520 },
   side: 'right',
   alt: '유사 프로젝트 다섯 건과 차이 한 줄이 붙은 목록',
   cap: '피그마 A-02 유사 프로젝트 5와 현재 프로젝트 제외 안내',
   notes: [
     { box: [996, 781, 147, 34], cat: 'Interaction', text: '도우미로 이어 찾기 단추가 업무 도우미 패널을 열고 현재 프로젝트는 제외' },
-    { box: [318, 815, 825, 24], cat: 'Default value', text: '제목 아래 현재 프로젝트 제외 안내 글자' },
     { box: [318, 863, 825, 173], cat: 'Data state', text: '후보마다 차이 한 줄과 세 단계 유사도 표시' },
   ],
 };
@@ -81,13 +78,12 @@ export const F_SIMILAR = {
 // 5 현황판 (D-01)
 export const F_BOARD = {
   ...SHOTS.d01,
-  crop: { x: 80, y: 70, w: 1400, h: 600 },
+  crop: { x: 80, y: 70, w: 1400, h: 560 },
   side: 'left',
   alt: '분야별 지표가 묶인 현황판',
   cap: '피그마 D-01 현황판 1440px',
   notes: [
     { box: [129, 103, 1289, 39], cat: 'Accessibility', text: '페이지 제목과 기준 시각 함께 표시' },
-    { box: [129, 193, 1289, 52], cat: 'Data state', text: '상단 요약 수치 한 줄' },
     { box: [129, 297, 270, 22], cat: 'Data state', text: '자료 기준 줄과 버전이 다르면 붙는 안내 줄' },
     { box: [129, 370, 623, 230], cat: 'Default value', text: '지표 묶음 A부터 E까지와 묶음마다 붙는 행과 막대' },
   ],
@@ -96,15 +92,14 @@ export const F_BOARD = {
 // 6 README 초안과 써 봤어요 (A-02 아래쪽)
 export const F_DRAFT = {
   ...SHOTS.a02,
-  crop: { x: 300, y: 1860, w: 860, h: 560 },
+  crop: { x: 300, y: 1840, w: 860, h: 580 },
   side: 'left',
   alt: 'README 초안 예시와 써 봤어요 예시 화면',
   cap: '피그마 A-02 README 초안 예시와 써 봤어요 예시',
   notes: [
-    { box: [318, 1883, 825, 112], cat: 'Data state', text: '시연용 예시 표시와 두 가지 상태(닫힘과 열림)' },
+    { box: [318, 1883, 825, 112], fy: 0.15, cat: 'Data state', text: '시연용 예시 표시와 두 가지 상태(닫힘과 열림)' },
     { box: [318, 1961, 119, 34], cat: 'Interaction', text: '열기 단추로 초안을 펼치고 내려받기 상태로 이어짐' },
-    { box: [318, 2030, 825, 34], cat: 'Interaction', text: '기록 추가와 삭제 뒤 새로고침하면 사전 예시 세 건만 남음' },
-    { box: [318, 2030, 825, 377], cat: 'Responsive', text: '360px에서는 목록과 입력 영역이 한 열' },
+    { box: [318, 2030, 825, 377], fy: 0.5, cat: 'Interaction', text: '기록 추가와 삭제 뒤 새로고침하면 사전 예시 세 건만 남음' },
   ],
 };
 
@@ -127,7 +122,7 @@ export const F_PUBLISH = {
 // 8 업무 도우미 패널 (A-12, 어두운 화면)
 export const F_PANEL = {
   ...SHOTS.panel,
-  crop: { x: 248, y: 80, w: 1190, h: 720 },
+  crop: { x: 248, y: 20, w: 1190, h: 780 },
   side: 'right',
   dark: true,
   alt: '업무 도우미 패널이 열린 화면',
@@ -136,7 +131,6 @@ export const F_PANEL = {
     { box: [1032, 80, 400, 100], cat: 'Interaction', text: '단축키 a로 열고 Esc로 닫음' },
     { box: [1048, 282, 368, 492], cat: 'Data state', text: '답변 상태 준비됨과 답변 종류 추천' },
     { box: [1048, 316, 368, 32], cat: 'Accessibility', text: '해석 줄은 해석이 있을 때만 표시하고 화면 읽기 도구에는 차분히 알림' },
-    { box: [1096, 164, 320, 94], cat: 'Interaction', text: '질문 0.12초와 답변 0.2초 두 박자로 아래에서 올라옴' },
   ],
 };
 
@@ -150,7 +144,7 @@ export const F_MCP = {
   cap: '피그마 A-07 연결 안내 어두운 화면 1440px',
   notes: [
     { box: [296, 203, 328, 20], cat: 'Accessibility', text: '수집일과 건수와 버전을 적은 자료 기준 줄' },
-    { box: [296, 375, 1088, 190], cat: 'Default value', text: '설정 복사 단계에서 저장소 경로 부분만 고쳐 씀' },
+    { box: [296, 375, 1088, 190], fy: 0.2, cat: 'Default value', text: '설정 복사 단계에서 저장소 경로 부분만 고쳐 씀' },
     { box: [296, 463, 1088, 86], cat: 'Interaction', text: '복사 단추는 세 상태이고 실패하면 글자 전체 선택' },
     { box: [296, 851, 1088, 32], cat: 'Data state', text: '응답 상태 아홉 종과 웹 화면 글자를 짝지어 안내' },
   ],
@@ -185,7 +179,6 @@ export const GITHUB = {
   alt: 'GitHub 저장소 검색 결과',
   cap: 'GitHub 저장소 검색 2026. 11. 22. 검색어 출장비',
   notes: [
-    { box: [180, 24, 1800, 62], cat: 'As-Is', text: 'GitHub는 검색어가 주소의 q 값으로 들어가 새로고침해도 같은 결과' },
-    { box: [1470, 150, 300, 52], cat: 'As-Is', text: '정렬을 바꾸면 주소의 정렬 값도 함께 바뀜' },
+    { box: [180, 24, 1800, 62], cat: 'As-Is', text: 'GitHub는 검색어와 정렬이 주소에 들어가 새로고침해도 같은 결과' },
   ],
 };

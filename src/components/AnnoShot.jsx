@@ -22,6 +22,8 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
   const cardRefs = useRef([]);
   const [geo, setGeo] = useState(null);
 
+  // 카드를 점 높이에 맞춰 놓는다. 점에서 카드까지는 곧은 수평선 하나로 잇는다.
+  // 카드가 점 높이를 가로지르는 범위 안에서 위아래로 움직이며 서로 겹치지 않게 쌓는다.
   const layout = () => {
     const fig = ref.current;
     const stage = stageRef.current;
@@ -30,13 +32,14 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
     const sr = stage.getBoundingClientRect();
     const narrow = fr.width < 900;
     const sc = sr.width / crop.w;
+    const bx = sr.left - fr.left;
+    const by = sr.top - fr.top;
     const dots = notes.map((n) => {
-      const x = (side === 'right' ? n.box[0] + n.box[2] : n.box[0]) - crop.x;
-      const y = n.box[1] + n.box[3] / 2 - crop.y;
-      return { x: sr.left - fr.left + x * sc + (side === 'right' ? 9 : -9), y: sr.top - fr.top + y * sc };
+      const edge = (side === 'right' ? n.box[0] + n.box[2] : n.box[0]) - crop.x;
+      const yy = n.box[1] + n.box[3] * (n.fy ?? 0.5) - crop.y;
+      return { x: bx + edge * sc + (side === 'right' ? 9 : -9), y: by + yy * sc };
     });
     if (narrow) {
-      // 좁은 화면: 점이 겹치지 않게 위에서부터 26px 간격을 지킨다
       const ord = dots.map((_, i) => i).sort((p, q) => dots[p].y - dots[q].y);
       const spaced = dots.map((d) => ({ ...d, x: d.x + (side === 'right' ? -20 : 20) }));
       let last = -999;
@@ -44,30 +47,23 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
       setGeo({ narrow: true, dots: spaced });
       return;
     }
-    // 카드 높이를 재서 점 높이에 맞추되 서로 겹치지 않게 아래로 민다
-    const hs = notes.map((_, i) => (cardRefs.current[i] ? cardRefs.current[i].offsetHeight : 120));
-    const order = notes.map((_, i) => i).sort((a, b) => dots[a].y - dots[b].y);
+    const M = 8;
+    const GAP = 12;
+    const hs = notes.map((_, i) => (cardRefs.current[i] ? cardRefs.current[i].offsetHeight : 110));
+    const order = notes.map((_, i) => i).sort((p, q) => dots[p].y - dots[q].y);
     const tops = [];
-    let cursor = sr.top - fr.top;
+    const bent = [];
+    let prev = -Infinity;
     order.forEach((i) => {
-      const want = dots[i].y - 22;
-      const t = Math.max(want, cursor);
-      tops[i] = t;
-      cursor = t + hs[i] + GAP;
+      const lo = Math.max(by, prev + GAP, dots[i].y + M - hs[i]);
+      const hi = dots[i].y - M;
+      if (lo > hi + 0.5) bent.push(i);
+      tops[i] = lo;
+      prev = lo + hs[i];
     });
-    // 아래로 넘치면 위로 당긴다
-    const stageBottom = sr.top - fr.top + sr.height;
-    let over = cursor - GAP - stageBottom;
-    if (over > 0) {
-      for (let j = order.length - 1; j >= 0; j--) {
-        const i = order[j];
-        const minTop = j === 0 ? sr.top - fr.top : tops[order[j - 1]] + hs[order[j - 1]] + GAP;
-        const move = Math.min(over, tops[i] - minTop);
-        if (move > 0) { tops[i] -= move; over -= move; }
-      }
-    }
+    const stageBottom = by + sr.height;
     const bottom = Math.max(stageBottom, ...tops.map((t, i) => t + hs[i]));
-    setGeo({ narrow: false, dots, tops, hs, bottom: bottom - (sr.top - fr.top), figW: fr.width, figH: fr.height });
+    setGeo({ narrow: false, dots, tops, hs, bent, bottom: bottom - by, by, figW: fr.width, figH: fr.height });
   };
 
   useLayoutEffect(() => {
@@ -96,7 +92,7 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
   };
 
   return (
-    <figure ref={ref} className={`anno an an-${side}${shotMax ? ' an-fit' : ''}${dark ? ' an-dark' : ''}${geo && geo.narrow ? ' an-narrow' : ''} ${className}`} style={style}>
+    <figure ref={ref} data-bent={geo && geo.bent ? geo.bent.length : 0} className={`anno an an-${side}${shotMax ? ' an-fit' : ''}${dark ? ' an-dark' : ''}${geo && geo.narrow ? ' an-narrow' : ''} ${className}`} style={style}>
       <div className="an-stage-col">
         <div ref={stageRef} className="an-stage" style={{ aspectRatio: `${crop.w} / ${crop.h}` }}>
           <div className="an-clip">
@@ -122,35 +118,29 @@ export default function AnnoShot({ src, px, k = 1.3, crop, notes, side = 'right'
       </div>
 
       <div className="an-cards" style={geo && !geo.narrow ? { height: geo.bottom } : undefined}>
-        {notes.map((n, i) => {
-          const pos = geo && !geo.narrow ? { top: geo.tops[i] - (stageRef.current.getBoundingClientRect().top - ref.current.getBoundingClientRect().top) } : null;
-          return (
-            <div
-              key={i}
-              ref={(el) => { cardRefs.current[i] = el; }}
-              className="an-card"
-              style={{ ...(pos || {}), '--c': CAT[n.cat], '--d': `${0.3 + i * 0.12}s` }}
-            >
-              <span className="an-tag" style={n.cat === 'As-Is' ? { color: '#fff' } : undefined}>{n.cat}</span>
-              <p className="an-text">{n.text}</p>
-            </div>
-          );
-        })}
+        {notes.map((n, i) => (
+          <div
+            key={i}
+            ref={(el) => { cardRefs.current[i] = el; }}
+            className="an-card"
+            style={{ ...(geo && !geo.narrow ? { top: geo.tops[i] - geo.by } : null), '--c': CAT[n.cat] }}
+          >
+            <span className="an-tag" style={n.cat === 'As-Is' ? { color: '#fff' } : undefined}>{n.cat}</span>
+            <p className="an-text">{n.text}</p>
+          </div>
+        ))}
       </div>
 
       {geo && !geo.narrow ? (
         <svg className="an-lines" width={geo.figW} height={geo.figH} viewBox={`0 0 ${geo.figW} ${geo.figH}`} aria-hidden="true">
           {notes.map((n, i) => {
             const d = geo.dots[i];
-            const cardEl = cardRefs.current[i];
             const fr = ref.current.getBoundingClientRect();
-            const cr = cardEl.getBoundingClientRect();
+            const cr = cardRefs.current[i].getBoundingClientRect();
             const cx = side === 'right' ? cr.left - fr.left : cr.right - fr.left;
-            const cy = geo.tops[i] + 20;
-            const ex = side === 'right' ? cx - 26 : cx + 26;
             return (
-              <g key={i} style={{ '--c': CAT[n.cat], '--d': `${0.25 + i * 0.12}s` }} className="an-line">
-                <path d={`M ${d.x} ${d.y} L ${ex} ${cy} L ${cx} ${cy}`} pathLength="1" />
+              <g key={i} style={{ '--c': CAT[n.cat] }} className="an-line">
+                <path d={`M ${d.x} ${d.y} H ${cx}`} />
                 <circle className="halo" cx={d.x} cy={d.y} r="12" />
                 <circle className="core" cx={d.x} cy={d.y} r="6" />
               </g>

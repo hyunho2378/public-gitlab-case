@@ -86,7 +86,7 @@ function Footer() {
           <div className="f-info">
             <ul className="info-cs">
               <li><strong className="strong">활동</strong><span className="span">2026 청년 공공 AX 서포터즈(행정안전부와 한국지능정보사회진흥원)</span></li>
-              <li><strong className="strong">자료</strong><span className="span">AI를 활용한 공공서비스 직접개발 결과 보고서와 피그마 [AX.S] Public GitLab Rebuild_DS</span></li>
+              <li><strong className="strong">자료</strong><span className="span">피그마 [AX.S] Public GitLab Rebuild_DS</span></li>
             </ul>
           </div>
         </div>

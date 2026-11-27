@@ -294,3 +294,58 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .cs-hero-sub, .cs-lead, .cs-page-sub, .cs-quick span, .col p, .cs-step-text p, .cs-note, .cs-src, .cs-cap, .an-text, .cs-insight, .stage-step span, .cs-kogl, .accordion-body, .krds-info-list li, .krds-table-wrap td, .cs-goal { text-wrap: balance; }
 .cs-hero-h { margin-top: 0; }
 .cs-board td:nth-child(n) time, .cs-recent time { white-space: nowrap; }
+
+
+/* ===== 읽기 쉽게: 글자 16px 이상, 본문 18px, 여백 넉넉히 ===== */
+body { font-size: 18px; }
+.cs-lead, .cs-page-sub, .cs-hero-sub { font-size: 20px; }
+.cs-src, .cs-cap, .cs-search-hint, .cs-recent time, .cs-swatch, .cs-type .t4, .cs-kogl, #krds-footer .krds-identifier .ban-txt, .an-stage-col .cap { font-size: 16px; }
+.cs-swatch b, .cs-swatch span { font-size: 16px; }
+.krds-badge { font-size: 16px; }
+.cs-logo-mark { width: 34px; height: 34px; border-radius: 8px; }
+.cs-logo-mark::after { font-size: 16px; }
+.an-tag { font-size: 16px; padding: 6px 10px; }
+.an-text { font-size: 18px; }
+.an-dot { width: 28px; height: 28px; margin: -14px 0 0 -14px; font-size: 16px; }
+.ia-node b, .ia-node span, .ia-edge { font-size: 17px; }
+.krds-breadcrumb-wrap .breadcrumb a, .krds-breadcrumb-wrap .breadcrumb .txt { font-size: 17px; }
+@media (max-width: 767px) {
+  .cs-live { font-size: 16px !important; }
+  .krds-table-wrap .tbl th, .krds-table-wrap .tbl td { font-size: 16px; padding: 14px 10px; }
+}
+.krds-table-wrap .tbl th, .krds-table-wrap .tbl td { padding: 20px 20px; font-size: 18px; line-height: 1.5; }
+
+/* 구간 간격 */
+.cs-block { padding-top: 72px; }
+.cs-block:first-child { padding-top: 32px; }
+.cs-h3 { font-size: 28px; margin-bottom: 10px; }
+.cs-feat-body, .cs-stack { margin-top: 28px; }
+.cs-stack { gap: 72px; }
+.cs-sec { padding-block: 72px; }
+.cs-hero { padding-block: 56px; }
+
+/* 메인 달라진 화면 세 장면 */
+.cs-scenes { display: grid; gap: 72px; margin-top: 36px; }
+.cs-scene { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; }
+.cs-scene.rev { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.cs-scene.rev .cs-scene-text { order: 2; }
+.cs-scene-text h3 { font-size: 30px; line-height: 1.4; font-weight: 700; letter-spacing: -0.03em; color: var(--cs-navy); }
+.cs-scene-text p { margin: 14px 0 20px; font-size: 20px; line-height: 1.6; color: var(--cs-sub); }
+@media (max-width: 899px) {
+  .cs-scene, .cs-scene.rev { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .cs-scene.rev .cs-scene-text { order: 0; }
+  .cs-scene-text h3 { font-size: 24px; }
+  .cs-scenes { gap: 48px; }
+}
+.cs-quick span { font-size: 18px; }
+.cs-eyebrow { font-size: 18px; font-weight: 700; color: var(--cs-blue); letter-spacing: 0; }
+.f-copy, .cs-list-head .krds-btn, .krds-table-wrap .tbl th { font-size: 16px !important; }
+.krds-step-wrap .step { font-size: 16px; }
+.krds-step-wrap .step-tit { font-size: 18px; }
+.krds-table-wrap .tbl th { font-size: 17px !important; }
+.krds-step-wrap > li .step { font-size: 16px !important; }
+.krds-step-wrap > li .step-tit { font-size: 18px !important; }
+.btn-navi.all { font-size: 16px !important; }
+
+.role-lane .track { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 899px) { .role-lane .track { grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; row-gap: 24px; } .role-lane .rail { display: none; } }

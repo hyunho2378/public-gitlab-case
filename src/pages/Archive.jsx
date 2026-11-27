@@ -5,16 +5,15 @@ import SideNav from './SideNav.jsx';
 
 const CATS = [
   { id: 'all', label: '전체 자료', kinds: null },
-  { id: 'doc', label: '보고서', kinds: ['보고서'] },
   { id: 'design', label: '화면 설계와 화면 자료', kinds: ['화면 설계', '화면 자료'] },
   { id: 'service', label: '서비스와 소스', kinds: ['서비스', '소스'] },
 ];
-const TONE = { 보고서: 'bg-light-primary', '화면 설계': 'bg-light-secondary', '화면 자료': 'bg-light-secondary', 서비스: 'bg-light-success', 소스: 'bg-light-gray' };
+const TONE = { '화면 설계': 'bg-light-secondary', '화면 자료': 'bg-light-secondary', 서비스: 'bg-light-success', 소스: 'bg-light-gray' };
 
 export default function Archive() {
   const [cat, setCat] = useState('all');
   const [q, setQ] = useState('');
-  const [sel, setSel] = useState('report');
+  const [sel, setSel] = useState('figma');
   const list = useMemo(() => {
     const c = CATS.find((x) => x.id === cat);
     return ARCHIVE.filter((a) => (!c.kinds || c.kinds.includes(a.kind)) && (!q.trim() || (a.title + a.desc + a.kind).includes(q.trim())));
@@ -33,7 +32,7 @@ export default function Archive() {
         <SideNav title="자료실" items={CATS.map((c) => ({ id: c.id, label: c.label }))} current={cat} onPick={setCat} />
         <div className="cs-sub-main">
           <h1 className="cs-h1">자료실</h1>
-          <p className="cs-page-sub">사업에서 만든 보고서와 화면 설계와 서비스 자료. 자료를 고르면 미리보기가 열림.</p>
+          <p className="cs-page-sub">사업에서 만든 화면 설계와 서비스 자료. 자료를 고르면 미리보기가 열림.</p>
 
           <div className="form-group cs-filter">
             <div className="form-tit"><label htmlFor="arc-q">자료 검색</label></div>
@@ -76,7 +75,7 @@ export default function Archive() {
               ))}
             </ul>
             <h3 className="cs-h4">미리보기</h3>
-            <div className={`cs-previews${cur.preview.length > 1 ? ' two' : ''}${cur.id === 'report' ? ' doc' : ''}`}>
+            <div className={`cs-previews${cur.preview.length > 1 ? ' two' : ''}`}>
               {cur.preview.map((p) => (
                 p.crop ? <Shot key={p.cap} {...p.crop} cap={p.cap} /> : (
                   <figure key={p.cap} className="cs-shot">

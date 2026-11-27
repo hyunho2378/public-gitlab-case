@@ -2,8 +2,8 @@ import { useState } from 'react';
 import AnnoShot from '../components/AnnoShot.jsx';
 import Journey from '../components/Journey.jsx';
 import { F_SEARCH, F_CARD, F_CARD_README, F_FIELD, F_SIMILAR, F_BOARD, F_DRAFT, F_PUBLISH, F_PANEL, F_MCP, ASIS_TABLE, GITHUB } from '../annos.js';
-import { TABS, DEV, ROLE, STRATEGY, SWATCH, STEPS, FAQ, IA_NODES, IA_EDGES } from '../data.js';
-import { Shot, Badge, Tabs, Steps, Accordion, Donut, Bars, IaMap } from '../ui.jsx';
+import { TABS, DEV, ROLE, SWATCH, STEPS, FAQ, IA_NODES, IA_EDGES } from '../data.js';
+import { Shot, Tabs, Steps, Accordion, Donut, Bars, IaMap } from '../ui.jsx';
 
 const goto = (id) => {
   const el = document.getElementById(id);
@@ -24,7 +24,7 @@ function Section({ id, title, lead, children }) {
 function Background() {
   return (
     <>
-      <Section id="b-research" title="공개 프로젝트 직접 집계" lead="공공 GitLab에는 공개 프로젝트가 있지만 이름만으로는 어떤 업무에 쓰는지 알기 어려움. 그래서 프로젝트와 README를 직접 집계했음.">
+      <Section id="b-research" title="공개 프로젝트 직접 집계" lead="이름만으로는 어떤 업무에 쓰는지 알기 어려워 프로젝트와 README를 직접 집계">
         <div className="cs-charts">
           <Donut value={412} total={671} title="공개 프로젝트 671개 중" a="분야 표시 없음 412개" b="분야 표시 있음 259개" insight="프로젝트 10개 가운데 6개에 분야 표시가 없음" />
           <Donut value={273} total={671} title="공개 프로젝트 671개 중" a="설명이 빈 프로젝트 273개" b="설명 있음 398개" insight="프로젝트 10개 가운데 4개는 설명 칸이 빔" />
@@ -33,31 +33,14 @@ function Background() {
         <p className="cs-src">출처: 공개 프로젝트 직접 집계와 README 전수 분석(2026. 10. 25.)</p>
       </Section>
 
-      <Section id="b-table" title="현황 진단 표">
-        <div className="krds-table-wrap">
-          <table className="tbl col data cs-diag">
-            <caption>공공 깃랩 기존 화면의 현황 진단 항목과 내용</caption>
-            <colgroup><col style={{ width: '22%' }} /><col /><col style={{ width: '26%' }} /></colgroup>
-            <thead><tr><th scope="col">구분</th><th scope="col">현황</th><th scope="col">기준</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">분야 표시</th><td>공개 프로젝트 671개 가운데 412개에 없음(61.4%)</td><td>직접 집계 2026. 10. 25.</td></tr>
-              <tr><th scope="row">설명 칸</th><td>공개 프로젝트 671개 가운데 273개가 빔(40.7%)</td><td>직접 집계 2026. 10. 25.</td></tr>
-              <tr><th scope="row">라이선스</th><td>README 695개 가운데 61.3%에 없음</td><td>전수 분석 2026. 10. 25.</td></tr>
-              <tr><th scope="row">실행 환경</th><td>README 695개 가운데 21.3%만 적음</td><td>전수 분석 2026. 10. 25.</td></tr>
-              <tr><th scope="row">분야 필터</th><td>35개에 시험용 값이 섞이고 검색어를 바꿔도 주소가 그대로</td><td>현황판 직접 확인 2026. 10. 2.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </Section>
-
-      <Section id="b-asis" title="기존 화면 점검" lead="기존 현황판 표와 GitHub 저장소 검색 화면을 열어 막힌 지점을 표시했음.">
+      <Section id="b-asis" title="기존 화면 점검" lead="기존 화면에서 막힌 지점을 표시">
         <div className="cs-stack">
           <AnnoShot {...ASIS_TABLE} cardW={280} shotMax={880} cap="기존 현황판 프로젝트 표 2026. 11. 7." />
           <AnnoShot {...GITHUB} cardW={280} shotMax={880} />
         </div>
       </Section>
 
-      <Section id="b-journey" title="이용자 여정" lead="비전공 공무원은 업무 문장으로 찾고 개발자는 AI 코딩 도구 안에서 같은 프로젝트를 조회.">
+      <Section id="b-journey" title="이용자 여정" lead="비전공 공무원은 업무 문장으로 찾고 개발자는 AI 코딩 도구 안에서 조회">
         <Journey />
         <div className="lane dev">
           <h4>개발자</h4>
@@ -71,11 +54,6 @@ function Background() {
 
       <Section id="b-goal" title="사업 목표">
         <div className="cs-goal">공무원이 업무 문장 하나로 쓸 만한 도구를 찾고 근거를 확인해 고르는 공공 깃랩</div>
-        <ul className="krds-info-list dash">
-          <li>업무 문장 검색: 도구 이름을 몰라도 하는 일을 문장으로 입력</li>
-          <li>근거가 붙은 소개 카드: 값마다 README 기반과 코드 추정과 정보 부족 표식</li>
-          <li>분야 기준 목록과 현황판: 12개 공통 업무 분야로 묶고 분류 상태를 줄로 표시</li>
-        </ul>
       </Section>
     </>
   );
@@ -94,27 +72,9 @@ const FEATS = [
 function Features() {
   return (
     <>
-      <Section id="f-list" title="기능 목록" lead="AX로 만든 기능 여섯 개. 이름을 누르면 해당 화면으로 이동.">
-        <div className="krds-table-wrap">
-          <table className="tbl col data">
-            <caption>주요 기능 번호와 이름과 설명</caption>
-            <colgroup><col style={{ width: '10%' }} /><col style={{ width: '24%' }} /><col /></colgroup>
-            <thead><tr><th scope="col">번호</th><th scope="col">기능</th><th scope="col">설명</th></tr></thead>
-            <tbody>
-              {FEATS.map((f, i) => (
-                <tr key={f.id}>
-                  <th scope="row">{i + 1}</th>
-                  <td><button type="button" className="krds-btn small text cs-lnk" onClick={() => goto(f.id)}>{f.name}</button></td>
-                  <td>{f.desc}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Section>
       {FEATS.map((f) => (
         <section id={f.id} key={f.id} className="cs-block cs-feat" aria-labelledby={`${f.id}-h`}>
-          <h3 id={`${f.id}-h`} className="cs-h3"><Badge tone="bg-light-primary">AX</Badge>{f.name}</h3>
+          <h3 id={`${f.id}-h`} className="cs-h3"><span className="cs-eyebrow">AX</span>{f.name}</h3>
           <p className="cs-lead">{f.desc}</p>
           <div className="cs-feat-body">{f.show}</div>
         </section>
@@ -129,7 +89,7 @@ function HowTo() {
   const cur = STEPS.find((s) => s.id === step);
   return (
     <>
-      <Section id="h-steps" title="이용 단계" lead="업무 문장 검색에서 공개 준비 점검까지 다섯 단계. 단계를 누르면 해당 화면을 볼 수 있음.">
+      <Section id="h-steps" title="이용 단계" lead="단계를 누르면 해당 화면이 바뀜">
         <Steps steps={STEPS} active={step} onPick={setStep} />
         <div className="cs-step-view" aria-live="polite">
           <div className="cs-step-text">
@@ -145,7 +105,7 @@ function HowTo() {
         <Accordion items={FAQ} />
       </Section>
 
-      <Section id="h-ia" title="화면 구성" lead="화면 여덟 개의 주소와 이동 길.">
+      <Section id="h-ia" title="화면 구성" lead="화면 여덟 개의 주소와 이동 길">
         <IaMap nodes={IA_NODES} edges={IA_EDGES} />
         <p className="cs-src">출처: 피그마 IA-01 화면 지도</p>
       </Section>
@@ -157,46 +117,22 @@ function HowTo() {
 function Results() {
   return (
     <>
-      <Section id="r-ba" title="개선 전과 후" lead="최근 활동 프로젝트 카드 위주였던 현황판을 분야와 근거 표식이 보이는 목록으로 다시 설계.">
+      <Section id="r-ba" title="개선 전과 후" lead="카드 위주였던 현황판을 분야와 근거 표식이 보이는 목록으로 설계">
         <div className="cs-pair">
           <Shot src="c_asis_cards.webp" nat={[1580, 640]} k={1} crop={{ x: 0, y: 0, w: 1580, h: 640 }} cap="개선 전 현황판 최근 활동 프로젝트" />
           <Shot src="an_a01.jpg" nat={[2012, 2098]} crop={{ x: 300, y: 416, w: 1200, h: 486 }} cap="개선 후 프로젝트 둘러보기" />
         </div>
-        <div className="krds-table-wrap">
-          <table className="tbl col data">
-            <caption>개선 전과 후 비교</caption>
-            <colgroup><col style={{ width: '22%' }} /><col /><col /></colgroup>
-            <thead><tr><th scope="col">구분</th><th scope="col">개선 전</th><th scope="col">개선 후</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">분야 구분</th><td>필터 35개에 시험용 값 혼재</td><td>12개 공통 업무 분야</td></tr>
-              <tr><th scope="row">검색 상태</th><td>검색어를 바꿔도 주소가 그대로</td><td>검색 상태를 주소에 저장</td></tr>
-              <tr><th scope="row">근거 확인</th><td>이름과 설명만 보임</td><td>값마다 근거 표식과 README 줄 이동</td></tr>
-              <tr><th scope="row">설명 칸 글자</th><td>11px에서 13px</td><td>KRDS 글자 크기 기준 적용</td></tr>
-            </tbody>
-          </table>
-        </div>
       </Section>
 
-      <Section id="r-ux" title="UX 재설계 화면" lead="분야 목록과 현황판과 초안 시연 화면 세 개.">
+      <Section id="r-ux" title="UX 재설계 화면" lead="분야 목록과 현황판과 초안 시연">
         <div className="cs-stack">
-          <div><h4 className="cs-h4"><Badge tone="bg-light-secondary">UX</Badge>업무 분야 목록</h4><p className="cs-note">기관마다 다른 주제를 12개 공통 업무 분야로 묶고 프로젝트 하나에 분야는 둘까지</p><AnnoShot {...F_FIELD} cardW={280} shotMax={880} /></div>
-          <div><h4 className="cs-h4"><Badge tone="bg-light-secondary">UX</Badge>현황판</h4><p className="cs-note">분야 확정과 카드 생성 상태를 줄로 나눠 보여 주고 분야 행을 누르면 그 분야 목록이 열림</p><AnnoShot {...F_BOARD} cardW={280} shotMax={880} /></div>
-          <div><h4 className="cs-h4"><Badge tone="bg-light-secondary">UX</Badge>README 초안과 써 봤어요</h4><p className="cs-note">공개 전 README 초안 예시와 써 본 기록을 한 화면에서 확인</p><AnnoShot {...F_DRAFT} cardW={280} shotMax={720} /></div>
+          <div><h4 className="cs-h4"><span className="cs-eyebrow">UX</span>업무 분야 목록</h4><p className="cs-note">기관마다 다른 주제를 12개 공통 업무 분야로 묶고 프로젝트 하나에 분야는 둘까지</p><AnnoShot {...F_FIELD} cardW={280} shotMax={880} /></div>
+          <div><h4 className="cs-h4"><span className="cs-eyebrow">UX</span>현황판</h4><p className="cs-note">분야 확정과 카드 생성 상태를 줄로 나눠 보여 주고 분야 행을 누르면 그 분야 목록이 열림</p><AnnoShot {...F_BOARD} cardW={280} shotMax={880} /></div>
+          <div><h4 className="cs-h4"><span className="cs-eyebrow">UX</span>README 초안과 써 봤어요</h4><p className="cs-note">공개 전 README 초안 예시와 써 본 기록을 한 화면에서 확인</p><AnnoShot {...F_DRAFT} cardW={280} shotMax={720} /></div>
         </div>
       </Section>
 
-      <Section id="r-strategy" title="설계 원칙">
-        <div className="krds-table-wrap">
-          <table className="tbl col data">
-            <caption>UX 설계 원칙과 내용</caption>
-            <colgroup><col style={{ width: '28%' }} /><col /></colgroup>
-            <thead><tr><th scope="col">원칙</th><th scope="col">내용</th></tr></thead>
-            <tbody>{STRATEGY.map((s) => (<tr key={s.b}><th scope="row">{s.b}</th><td>{s.s}</td></tr>))}</tbody>
-          </table>
-        </div>
-      </Section>
-
-      <Section id="r-krds" title="KRDS 적용" lead="색과 서체와 부품은 범정부 디자인 시스템 값을 따름.">
+      <Section id="r-krds" title="KRDS 적용" lead="색과 서체와 부품은 범정부 디자인 시스템 값을 따름">
         <div className="cs-vs-top">
           <div>
             <h4 className="cs-h4">색</h4>
@@ -222,14 +158,12 @@ function Results() {
         </div>
       </Section>
 
-      <Section id="r-role" title="담당" lead="백엔드만 다른 개발자가 맡고 나머지 전 과정은 한 사람이 직접 진행.">
-        <div className="krds-table-wrap">
-          <table className="tbl col data">
-            <caption>담당 과정과 수행 내용</caption>
-            <colgroup><col style={{ width: '24%' }} /><col /></colgroup>
-            <thead><tr><th scope="col">과정</th><th scope="col">수행 내용</th></tr></thead>
-            <tbody>{ROLE.map((s) => (<tr key={s.b}><th scope="row">{s.b}</th><td>{s.s}</td></tr>))}</tbody>
-          </table>
+      <Section id="r-role" title="담당" lead="백엔드만 다른 개발자가 맡고 나머지 전 과정은 한 사람이 직접 진행">
+        <div className="lane dev role-lane">
+          <div className="track">
+            <span className="rail" aria-hidden="true"><i /></span>
+            {ROLE.map((s) => (<div className="stage-step" key={s.b}><b>{s.b}</b><span>{s.s}</span></div>))}
+          </div>
         </div>
       </Section>
     </>
